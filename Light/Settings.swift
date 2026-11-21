@@ -46,3 +46,39 @@ enum AppSettings {
     static var vibrate: Bool { store.bool(forKey: SettingsKey.vibrate) }
     static var notifyOnOff: Bool { store.bool(forKey: SettingsKey.notifyOnOff) }
 }
+
+/// Forgiving comparison of Wi‑Fi names: the user may type the name from memory.
+/// Ignores case, spaces and punctuation (`_ - .` …) and allows 1–2 wrong letters.
+enum SSIDMatcher {
+    static func matches(_ ssid: String, _ typed: String) -> Bool {
+        let a = normalize(ssid)
+        let b = normalize(typed)
+        if a.isEmpty || b.isEmpty { return a == b }
+        if a == b { return true }
+        let shorter = min(a.count, b.count)
+        // Short names are risky to match loosely; long ones may have up to 2 typos.
+        let allowed = shorter >= 6 ? 2 : (shorter >= 3 ? 1 : 0)
+        return distance(a, b) <= allowed
+    }
+
+    static func normalize(_ s: String) -> [Character] {
+        Array(s.lowercased().filter { $0.isLetter || $0.isNumber })
+    }
+
+    /// Levenshtein distance (insert / delete / replace one character = 1).
+    static func distance(_ a: [Character], _ b: [Character]) -> Int {
+        if a.isEmpty { return b.count }
+        if b.isEmpty { return a.count }
+        var previous = Array(0...b.count)
+        var current = [Int](repeating: 0, count: b.count + 1)
+        for i in 1...a.count {
+            current[0] = i
+            for j in 1...b.count {
+                let cost = a[i - 1] == b[j - 1] ? 0 : 1
+                current[j] = min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + cost)
+            }
+            swap(&previous, &current)
+        }
+        return previous[b.count]
+    }
+}

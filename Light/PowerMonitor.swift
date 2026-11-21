@@ -131,7 +131,7 @@ final class PowerMonitor: ObservableObject {
         let home = AppSettings.homeSSID
         // No home network configured, or iOS doesn't reveal the name → any Wi‑Fi counts.
         guard !home.isEmpty, let ssid else { return true }
-        return ssid == home
+        return SSIDMatcher.matches(ssid, home)
     }
 
     // MARK: - State machine
