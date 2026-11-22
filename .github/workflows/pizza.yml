@@ -1,0 +1,85 @@
+name: Pizzeria build & TestFlight
+
+on:
+  push:
+    paths:
+      - 'Pizzeria/**'
+      - '.github/workflows/pizza.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: pizza-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testflight:
+    name: Build and upload to TestFlight
+    runs-on: macos-latest
+    env:
+      BUNDLE_ID: com.svetlo.pizzeria
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID || 'QJF462K6ZA' }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID || 'J6868Z94FB' }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID || 'f1c0a46f-3a8d-4804-b576-cde09c5e920b' }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode version
+        run: xcodebuild -version
+
+      - name: Compile (unsigned)
+        if: env.ASC_KEY_P8 == ''
+        run: |
+          xcodebuild build -quiet \
+            -project Pizzeria/Pizzeria.xcodeproj -scheme Pizzeria -configuration Release \
+            -destination 'generic/platform=iOS' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+
+      - name: App Store Connect API key
+        if: env.ASC_KEY_P8 != ''
+        run: |
+          mkdir -p "$RUNNER_TEMP/keys"
+          printf '%s' "$ASC_KEY_P8" > "$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8"
+          echo "ASC_KEY_PATH=$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
+
+      - name: Archive (cloud signing)
+        if: env.ASC_KEY_P8 != ''
+        run: |
+          xcodebuild archive -quiet \
+            -project Pizzeria/Pizzeria.xcodeproj -scheme Pizzeria -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/Pizzeria.xcarchive" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic \
+            PRODUCT_BUNDLE_IDENTIFIER="$BUNDLE_ID" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}"
+
+      - name: Upload to App Store Connect
+        if: env.ASC_KEY_P8 != ''
+        run: |
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>${APPLE_TEAM_ID}</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict>
+          </plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/Pizzeria.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+          echo "::notice::Pizzeria build ${{ github.run_number }} uploaded to App Store Connect."

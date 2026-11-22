@@ -2,6 +2,9 @@ name: iOS build & TestFlight
 
 on:
   push:
+    paths-ignore:
+      - 'Pizzeria/**'
+      - '.github/workflows/pizza.yml'
   workflow_dispatch:
 
 concurrency:
