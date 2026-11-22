@@ -8,6 +8,7 @@ struct LightApp: App {
 
     init() {
         UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
+        NotificationManager.registerCategories()
         // Start immediately: the app may also be launched in the background
         // (for example by a Shortcuts automation), without any UI.
         PowerMonitor.shared.start()

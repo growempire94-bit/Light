@@ -18,6 +18,8 @@ final class AudioManager: ObservableObject {
     private var alarmStopWork: DispatchWorkItem?
     private var vibrateTimer: Timer?
     private var observersInstalled = false
+    private var volumeObservation: NSKeyValueObservation?
+    private var alarmStartedAt = Date.distantPast
 
     private init() {}
 
@@ -65,6 +67,8 @@ final class AudioManager: ObservableObject {
         alarmPlayer?.currentTime = 0
         alarmPlayer?.play()
         isAlarmPlaying = true
+        alarmStartedAt = Date()
+        watchVolumeButtons()
 
         vibrateTimer?.invalidate()
         vibrateTimer = nil
@@ -88,6 +92,8 @@ final class AudioManager: ObservableObject {
     }
 
     func stopAlarm() {
+        volumeObservation?.invalidate()
+        volumeObservation = nil
         alarmStopWork?.cancel()
         alarmStopWork = nil
         vibrateTimer?.invalidate()
@@ -96,6 +102,20 @@ final class AudioManager: ObservableObject {
         isAlarmPlaying = false
         configureSession(forAlarm: false)
         ensureKeepAlive()
+    }
+
+    /// Pressing a volume button (also on the lock screen) turns the siren off,
+    /// like an alarm clock. Changes during the first seconds are ignored:
+    /// that's the app itself raising the volume to maximum.
+    private func watchVolumeButtons() {
+        volumeObservation?.invalidate()
+        volumeObservation = AVAudioSession.sharedInstance().observe(\.outputVolume, options: [.new]) { [weak self] _, _ in
+            DispatchQueue.main.async {
+                guard let self, self.isAlarmPlaying,
+                      Date().timeIntervalSince(self.alarmStartedAt) > 2 else { return }
+                self.stopAlarm()
+            }
+        }
     }
 
     // MARK: - Session

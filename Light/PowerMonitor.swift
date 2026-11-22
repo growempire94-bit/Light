@@ -218,7 +218,8 @@ final class PowerMonitor: ObservableObject {
                                            vibrate: AppSettings.vibrate)
         }
         NotificationManager.post(title: "💡 Свет появился!",
-                                 body: "Домашний Wi‑Fi снова в сети. Света не было \(Format.duration(duration)).")
+                                 body: "Домашний Wi‑Fi снова в сети. Света не было \(Format.duration(duration)).",
+                                 category: NotificationManager.alarmCategory)
     }
 
     // MARK: - Persistence (survives app restarts)

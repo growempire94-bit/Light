@@ -12,6 +12,8 @@ struct ContentView: View {
                     .tabItem { Label("Статус", systemImage: "lightbulb") }
                 HistoryView()
                     .tabItem { Label("Журнал", systemImage: "list.bullet") }
+                StatsView()
+                    .tabItem { Label("Графики", systemImage: "chart.bar") }
                 SettingsView()
                     .tabItem { Label("Настройки", systemImage: "gearshape") }
             }
@@ -52,6 +54,9 @@ struct AlarmOverlay: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
                 .padding(.horizontal, 32)
+                Text("или нажмите кнопку громкости вниз")
+                    .font(.headline)
+                    .foregroundColor(.black.opacity(0.7))
             }
         }
     }
@@ -63,12 +68,23 @@ struct StatusView: View {
     @EnvironmentObject var monitor: PowerMonitor
     @ObservedObject private var audio = AudioManager.shared
     @AppStorage(SettingsKey.homeSSID) private var homeSSID = ""
+    @AppStorage(SettingsKey.alarmEnabled) private var alarmEnabled = true
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
                     StatusCard(state: monitor.state, since: monitor.stateSince)
+
+                    Toggle(isOn: $alarmEnabled) {
+                        Label(alarmEnabled ? "Сирена включена" : "Сирена выключена",
+                              systemImage: alarmEnabled ? "bell.and.waves.left.and.right.fill" : "bell.slash.fill")
+                            .font(.headline)
+                    }
+                    .tint(.orange)
+                    .padding()
+                    .background(Color(.secondarySystemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
 
                     VStack(spacing: 0) {
                         InfoRow(icon: "wifi", title: "Wi‑Fi", value: wifiText)
@@ -93,7 +109,7 @@ struct StatusView: View {
                     .buttonStyle(.borderedProminent)
                     .tint(.orange)
 
-                    Text("Не закрывайте приложение смахиванием вверх — тогда iOS остановит слежение. Просто сверните его. Мобильный интернет можно не выключать.")
+                    Text("Выключить сирену: кнопка громкости вниз, кнопка в приложении или в уведомлении. Не закрывайте приложение смахиванием вверх — тогда iOS остановит слежение. Просто сверните его. Wi‑Fi держите включённым, мобильный интернет можно не выключать.")
                         .font(.footnote)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
