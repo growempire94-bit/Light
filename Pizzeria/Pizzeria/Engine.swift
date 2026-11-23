@@ -110,6 +110,34 @@ final class Engine: NSObject, ObservableObject {
     @Published var speed: Int = 1
     @Published var gameOver = false
     @Published var panel: Panel?
+    @Published var menuOpen = false
+    @Published var ecoGraphics = UserDefaults.standard.bool(forKey: "ecoGraphics") {
+        didSet {
+            UserDefaults.standard.set(ecoGraphics, forKey: "ecoGraphics")
+            world.applyQuality(eco: ecoGraphics)
+        }
+    }
+    @Published var muted = UserDefaults.standard.bool(forKey: "muted") {
+        didSet {
+            UserDefaults.standard.set(muted, forKey: "muted")
+            Sound.shared.muted = muted
+        }
+    }
+    private var speedBeforeMenu = 1
+
+    func openMenu() {
+        guard !menuOpen else { return }
+        speedBeforeMenu = speed == 0 ? 1 : speed
+        speed = 0
+        panel = nil
+        menuOpen = true
+        save()
+    }
+
+    func closeMenu() {
+        menuOpen = false
+        speed = speedBeforeMenu
+    }
 
     let world = World()
 
@@ -142,6 +170,7 @@ final class Engine: NSObject, ObservableObject {
         super.init()
         today = DayReport(day: state.day)
         world.apply(state)
+        world.applyQuality(eco: ecoGraphics)
         rebuildStaff()
         resetOvens()
         seatTaken = Array(repeating: false, count: world.seats.count)
@@ -879,6 +908,7 @@ final class Engine: NSObject, ObservableObject {
     }
 
     func restart() {
+        menuOpen = false
         GameState.wipe()
         world.clearPlates()
         for c in customers { c.person.node.removeFromParentNode() }

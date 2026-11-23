@@ -242,10 +242,7 @@ final class World: NSObject {
         cam.bloomIntensity = 0.25
         cam.bloomThreshold = 1.3
         cam.bloomBlurRadius = 10
-        cam.screenSpaceAmbientOcclusionIntensity = 1.2
-        cam.screenSpaceAmbientOcclusionRadius = 0.3
-        cam.screenSpaceAmbientOcclusionNormalThreshold = 0.3
-        cam.screenSpaceAmbientOcclusionDepthThreshold = 0.15
+        cam.screenSpaceAmbientOcclusionIntensity = 0
         cam.vignettingIntensity = 0.35
         cam.vignettingPower = 0.8
         cam.colorFringeStrength = 0
@@ -290,13 +287,17 @@ final class World: NSObject {
         let s = SCNLight()
         s.type = .directional
         s.castsShadow = true
-        s.shadowMode = .deferred
-        s.shadowSampleCount = 12
-        s.shadowRadius = 2.0
+        s.shadowMode = .forward
+        s.shadowSampleCount = 8
+        s.shadowRadius = 2.5
         s.shadowMapSize = CGSize(width: 4096, height: 4096)
-        s.automaticallyAdjustsShadowProjection = true
-        s.maximumShadowDistance = 42
-        s.shadowCascadeCount = 2
+        // A fixed shadow frustum around the shop: the shadow map does not move with the camera,
+        // so shadow edges stay still instead of shimmering.
+        s.automaticallyAdjustsShadowProjection = false
+        s.orthographicScale = 22
+        s.zNear = 1
+        s.zFar = 140
+        s.shadowBias = 1.5
         s.shadowColor = UIColor(white: 0, alpha: 0.6)
         s.intensity = 1400
         s.categoryBitMask = World.exteriorMask
@@ -1258,13 +1259,33 @@ final class World: NSObject {
         var readyBoxes = 0
     }
 
+    private var sunStep = -1
+
+    /// Graphics quality: `eco` trades shadow resolution, antialiasing and bloom for speed and battery.
+    func applyQuality(eco: Bool) {
+        view.antialiasingMode = eco ? .multisampling2X : .multisampling4X
+        sun.light?.shadowMapSize = eco ? CGSize(width: 2048, height: 2048) : CGSize(width: 4096, height: 4096)
+        sun.light?.shadowSampleCount = eco ? 1 : 8
+        sun.light?.shadowRadius = eco ? 1 : 2.5
+        cameraNode.camera?.bloomIntensity = eco ? 0 : 0.25
+        cameraNode.camera?.vignettingIntensity = eco ? 0 : 0.35
+    }
+
     func update(dt: Float, visualSpeed: Float, _ a: Ambience) {
         let hour = Float(a.minute / 60)
         let dayT = (hour - 5.5) / 15
         let sunHeight = sin(dayT * .pi)
-        let elev = max(0.08, asin(max(-1, min(1, sunHeight))))
-        let az = (dayT - 0.5) * 1.9 + 0.5
-        sun.eulerAngles = SCNVector3(-elev, az, 0)
+        // The sun moves in small steps (every 3 game minutes): a continuously moving shadow map crawls.
+        let step = Int(a.minute / 3)
+        if step != sunStep {
+            sunStep = step
+            let qT = (Float(step) * 3 / 60 - 5.5) / 15
+            let qH = sin(qT * .pi)
+            let elev = max(0.12, asin(max(-1, min(1, qH))))
+            let az = (qT - 0.5) * 1.9 + 0.5
+            sun.eulerAngles = SCNVector3(-elev, az, 0)
+            sun.simdPosition = SIMD3<Float>(0, 0, -2) - sun.simdWorldFront * 60
+        }
         let dayAmount = max(0, min(1, (sunHeight + 0.05) / 0.35))
         sun.light?.intensity = CGFloat(1350 * dayAmount)
         sun.light?.temperature = CGFloat(3500 + 2700 * max(0, min(1, sunHeight * 2.2)))
@@ -1336,7 +1357,7 @@ final class World: NSObject {
             let p = n.simdPosition
             return abs(p.x - Spot.doorX) < 0.9 && abs(p.z) < 1.4
         }
-        if near && doorOpen < 0.02 { Sound.shared.play("door", volume: 0.35) }
+        if near && doorOpen < 0.02 { Sound.shared.play("door", volume: 0.5, minGap: 5) }
         doorOpen += ((near ? 1 : 0) - doorOpen) * min(1, dt * 6)
         doorPanel.position.x = Spot.doorX + doorOpen * 0.95
     }

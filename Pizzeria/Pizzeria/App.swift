@@ -14,13 +14,16 @@ struct PizzeriaApp: App {
                 .statusBarHidden(true)
                 .persistentSystemOverlays(.hidden)
                 .onAppear {
-                    Sound.shared.muted = UserDefaults.standard.bool(forKey: "muted")
+                    Sound.shared.muted = engine.muted
                     Sound.shared.start()
                     ShotDirector.startIfRequested(engine)
                 }
         }
         .onChange(of: scenePhase) { phase in
-            if phase != .active { engine.save() }
+            if phase != .active {
+                if engine.state.started && engine.report == nil && !engine.gameOver { engine.openMenu() }
+                engine.save()
+            }
         }
     }
 }
@@ -59,7 +62,7 @@ enum Panel: String, Identifiable, CaseIterable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .menu: return "Меню"
+        case .menu: return "Пиццы"
         case .kitchen: return "Кухня"
         case .staff: return "Персонал"
         case .ads: return "Реклама"
@@ -82,7 +85,7 @@ enum Panel: String, Identifiable, CaseIterable {
 struct GameScreen: View {
     @EnvironmentObject var engine: Engine
 
-    private var overlayActive: Bool { engine.gameOver || !engine.state.started || engine.report != nil }
+    private var overlayActive: Bool { engine.gameOver || !engine.state.started || engine.report != nil || engine.menuOpen }
 
     var body: some View {
         ZStack {
@@ -115,6 +118,8 @@ struct GameScreen: View {
                 Group {
                     if engine.gameOver {
                         GameOverView()
+                    } else if engine.menuOpen {
+                        PauseMenu()
                     } else if !engine.state.started {
                         IntroView()
                     } else {
@@ -139,64 +144,76 @@ struct HUD: View {
     @EnvironmentObject var engine: Engine
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .top, spacing: 10) {
-                MoneyCard()
-                Spacer(minLength: 8)
-                VStack(spacing: 6) {
-                    if let o = engine.hud.outage {
-                        Label(o, systemImage: "bolt.slash.fill")
-                            .font(.footnote.weight(.semibold))
-                            .padding(.horizontal, 12).padding(.vertical, 6)
-                            .background(Color.orange.opacity(0.9), in: Capsule())
-                            .foregroundStyle(.black)
+        GeometryReader { geo in
+            let compact = geo.size.width < 760
+            VStack(spacing: 0) {
+                HStack(alignment: .top, spacing: 8) {
+                    MoneyCard(compact: compact)
+                    Spacer(minLength: 6)
+                    VStack(spacing: 6) {
+                        if let o = engine.hud.outage {
+                            Label(o, systemImage: "bolt.slash.fill")
+                                .font(.footnote.weight(.semibold))
+                                .padding(.horizontal, 12).padding(.vertical, 6)
+                                .background(Color.orange.opacity(0.9), in: Capsule())
+                                .foregroundStyle(.black)
+                        }
+                        if let t = engine.toast {
+                            Text(t)
+                                .font(.subheadline.weight(.semibold))
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 14).padding(.vertical, 9)
+                                .frame(maxWidth: compact ? 260 : 420)
+                                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+                                .transition(.move(edge: .top).combined(with: .opacity))
+                        }
                     }
-                    if let t = engine.toast {
-                        Text(t)
-                            .font(.subheadline.weight(.semibold))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 16).padding(.vertical, 10)
-                            .frame(maxWidth: 420)
-                            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-                            .transition(.move(edge: .top).combined(with: .opacity))
+                    Spacer(minLength: 6)
+                    HStack(spacing: 6) {
+                        SpeedControl(compact: compact)
+                        HUDButton(icon: "camera.viewfinder") { engine.world.resetCamera() }
+                        HUDButton(icon: "line.3.horizontal") {
+                            withAnimation(.easeOut(duration: 0.2)) { engine.openMenu() }
+                        }
                     }
                 }
-                Spacer(minLength: 8)
-                HStack(spacing: 8) {
-                    SpeedControl()
-                    SoundToggle()
-                    Button {
-                        engine.world.resetCamera()
-                    } label: {
-                        Image(systemName: "camera.viewfinder")
-                            .font(.system(size: 17, weight: .semibold))
-                            .frame(width: 40, height: 40)
-                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                    }
-                    .foregroundStyle(.primary)
+                Spacer()
+                HStack(alignment: .bottom, spacing: 8) {
+                    TodayCard(compact: compact)
+                    Spacer(minLength: 6)
+                    PanelBar(compact: compact)
                 }
-            }
-            Spacer()
-            HStack(alignment: .bottom, spacing: 10) {
-                TodayCard()
-                Spacer(minLength: 8)
-                PanelBar()
             }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+    }
+}
+
+struct HUDButton: View {
+    let icon: String
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 17, weight: .semibold))
+                .frame(width: 40, height: 40)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        }
+        .foregroundStyle(.primary)
     }
 }
 
 struct MoneyCard: View {
     @EnvironmentObject var engine: Engine
+    var compact = false
 
     var body: some View {
         let h = engine.hud
-        HStack(spacing: 14) {
+        HStack(spacing: compact ? 10 : 14) {
             VStack(alignment: .leading, spacing: 1) {
                 Text(Fmt.money(h.money))
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .font(.system(size: compact ? 20 : 24, weight: .bold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(h.money < 0 ? Color.red : Color.primary)
                 HStack(spacing: 6) {
@@ -207,40 +224,43 @@ struct MoneyCard: View {
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
             }
-            Divider().frame(height: 34)
+            Divider().frame(height: 32)
             VStack(alignment: .leading, spacing: 3) {
                 Stars(rating: h.rating)
-                Text(h.rating.map { String(format: "%.1f · %d отз.", $0, h.reviews) } ?? "нет отзывов")
+                Text(h.rating.map { String(format: compact ? "%.1f" : "%.1f · %d отз.", $0, h.reviews) } ?? "нет отзывов")
                     .font(.caption2).foregroundStyle(.secondary)
             }
         }
-        .padding(.horizontal, 14).padding(.vertical, 8)
+        .padding(.horizontal, compact ? 11 : 14).padding(.vertical, 7)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
 
 struct TodayCard: View {
     @EnvironmentObject var engine: Engine
+    var compact = false
 
     var body: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: compact ? 10 : 14) {
             stat("person.3.sequence.fill", "\(engine.hud.queue)", "очередь")
             stat("circle.circle.fill", "\(engine.hud.pizzasToday)", "пицц")
             stat("banknote.fill", Fmt.money(engine.hud.revenueToday), "выручка")
-            if engine.hud.lostToday > 0 {
+            if engine.hud.lostToday > 0 && !compact {
                 stat("figure.walk.departure", "\(engine.hud.lostToday)", "ушли", tint: .orange)
             }
         }
-        .padding(.horizontal, 14).padding(.vertical, 8)
+        .padding(.horizontal, compact ? 10 : 14).padding(.vertical, 7)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private func stat(_ icon: String, _ value: String, _ label: String, tint: Color = .primary) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: icon).font(.system(size: 13, weight: .semibold)).foregroundStyle(tint.opacity(0.8))
+        HStack(spacing: 5) {
+            Image(systemName: icon).font(.system(size: 12, weight: .semibold)).foregroundStyle(tint.opacity(0.8))
             VStack(alignment: .leading, spacing: 0) {
-                Text(value).font(.system(size: 14, weight: .bold, design: .rounded)).monospacedDigit()
-                Text(label).font(.system(size: 9, weight: .medium)).foregroundStyle(.secondary)
+                Text(value).font(.system(size: compact ? 13 : 14, weight: .bold, design: .rounded)).monospacedDigit()
+                if !compact {
+                    Text(label).font(.system(size: 9, weight: .medium)).foregroundStyle(.secondary)
+                }
             }
         }
     }
@@ -248,18 +268,19 @@ struct TodayCard: View {
 
 struct PanelBar: View {
     @EnvironmentObject var engine: Engine
+    var compact = false
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: compact ? 4 : 6) {
             ForEach(Panel.allCases) { p in
                 Button {
                     withAnimation(.easeOut(duration: 0.25)) { engine.panel = engine.panel == p ? nil : p }
                 } label: {
                     VStack(spacing: 3) {
-                        Image(systemName: p.icon).font(.system(size: 17, weight: .semibold))
-                        Text(p.title).font(.system(size: 10, weight: .semibold))
+                        Image(systemName: p.icon).font(.system(size: compact ? 15 : 17, weight: .semibold))
+                        Text(p.title).font(.system(size: compact ? 8.5 : 10, weight: .semibold)).lineLimit(1)
                     }
-                    .frame(width: 62, height: 50)
+                    .frame(width: compact ? 50 : 62, height: compact ? 44 : 50)
                     .background(engine.panel == p ? AnyShapeStyle(Color.orange.opacity(0.9)) : AnyShapeStyle(.ultraThinMaterial),
                                 in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .foregroundStyle(engine.panel == p ? Color.black : Color.primary)
@@ -269,20 +290,84 @@ struct PanelBar: View {
     }
 }
 
-struct SoundToggle: View {
-    @State private var muted = UserDefaults.standard.bool(forKey: "muted")
+/// Pause menu: continue, help, sound, graphics quality, new game.
+struct PauseMenu: View {
+    @EnvironmentObject var engine: Engine
+    @State private var showHelp = false
+    @State private var confirmRestart = false
+
     var body: some View {
-        Button {
-            muted.toggle()
-            UserDefaults.standard.set(muted, forKey: "muted")
-            Sound.shared.muted = muted
-        } label: {
-            Image(systemName: muted ? "speaker.slash.fill" : "speaker.wave.2.fill")
-                .font(.system(size: 15, weight: .semibold))
-                .frame(width: 40, height: 40)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        HStack(alignment: .top, spacing: 14) {
+            VStack(spacing: 10) {
+                Text("Пауза").font(.system(size: 28, weight: .heavy, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Button {
+                    withAnimation(.easeOut(duration: 0.2)) { engine.closeMenu() }
+                } label: {
+                    Label("Продолжить", systemImage: "play.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color.orange, in: RoundedRectangle(cornerRadius: 14))
+                        .foregroundStyle(.black)
+                }
+                menuRow(showHelp ? "Скрыть подсказки" : "Как играть", icon: "questionmark.circle") { showHelp.toggle() }
+                menuRow(engine.muted ? "Звук: выключен" : "Звук: включён", icon: engine.muted ? "speaker.slash.fill" : "speaker.wave.2.fill") {
+                    engine.muted.toggle()
+                }
+                menuRow(engine.ecoGraphics ? "Графика: экономная" : "Графика: высокая", icon: engine.ecoGraphics ? "leaf" : "sparkles") {
+                    engine.ecoGraphics.toggle()
+                }
+                menuRow("Начать заново", icon: "arrow.counterclockwise", role: .destructive) { confirmRestart = true }
+            }
+            .frame(width: 290)
+            .padding(18)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+            if showHelp {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Как играть").font(.headline)
+                        Label("Гости приходят с улицы. Цена, отзывы, вывеска и реклама решают, сколько их зайдёт", systemImage: "figure.walk")
+                        Label("Вы принимаете заказы и печёте сами. Наймите кассира и пиццайоло, чтобы не было очереди", systemImage: "person.2")
+                        Label("Печь, холодильный стол и тестомес ускоряют кухню и делают пиццу лучше", systemImage: "flame")
+                        Label("Каждый вечер — аренда, зарплаты, электричество и налог. Три дня в минусе — банкротство", systemImage: "chart.bar")
+                        Label("Отключения света по графику: без генератора электропечь стоит", systemImage: "bolt.slash")
+                        Divider()
+                        Label("Палец — двигать камеру, щипок — зум, два пальца — наклон и поворот", systemImage: "hand.draw")
+                        Label("Нажмите на печь, столы, меню на стене или вывеску — откроется нужный раздел", systemImage: "hand.tap")
+                        Label("⏸ ×1 ×2 ×4 сверху — скорость времени", systemImage: "speedometer")
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                }
+                .frame(width: 330)
+                .padding(18)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+            }
         }
-        .foregroundStyle(.primary)
+        .padding(.vertical, 12)
+        .animation(.easeInOut(duration: 0.2), value: showHelp)
+        .confirmationDialog("Начать заново? Весь прогресс будет удалён.", isPresented: $confirmRestart, titleVisibility: .visible) {
+            Button("Начать заново", role: .destructive) { engine.restart() }
+            Button("Отмена", role: .cancel) {}
+        }
+    }
+
+    private func menuRow(_ title: String, icon: String, role: ButtonRole? = nil, action: @escaping () -> Void) -> some View {
+        Button(role: role, action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: icon).frame(width: 24)
+                Text(title)
+                Spacer()
+            }
+            .font(.body.weight(.semibold))
+            .padding(.horizontal, 14).padding(.vertical, 11)
+            .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+            .foregroundStyle(role == .destructive ? Color.red : Color.primary)
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -302,6 +387,7 @@ struct Stars: View {
 
 struct SpeedControl: View {
     @EnvironmentObject var engine: Engine
+    var compact = false
     var body: some View {
         HStack(spacing: 2) {
             ForEach([0, 1, 2, 4], id: \.self) { s in
@@ -312,7 +398,7 @@ struct SpeedControl: View {
                         if s == 0 { Image(systemName: "pause.fill") } else { Text("×\(s)") }
                     }
                     .font(.caption.weight(.bold))
-                    .frame(width: 34, height: 32)
+                    .frame(width: compact ? 30 : 34, height: 32)
                     .background(engine.speed == s ? Color.orange : Color.clear, in: RoundedRectangle(cornerRadius: 8))
                     .foregroundStyle(engine.speed == s ? Color.black : Color.primary)
                 }
@@ -371,6 +457,10 @@ enum ShotDirector {
         engine.panel = nil
         // 8: end of day report.
         engine.debugShowReport()
+        await shot()
+        // 9: pause menu.
+        engine.report = nil
+        engine.openMenu()
         await shot()
         FileManager.default.createFile(atPath: docs.appendingPathComponent("done").path, contents: Data())
     }

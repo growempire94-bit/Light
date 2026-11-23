@@ -1,37 +1,36 @@
 import AVFoundation
+import QuartzCore
 
-/// Procedural sound: street ambience, wood-fire crackle and a few one-shots
-/// (till, door chime, UI tap). Everything is synthesised at start-up, no audio files.
+/// Game sound. Ambience loops and one-shots are synthesised once at start-up into buffers
+/// and played by AVAudioPlayerNodes (nothing is generated on the real-time audio thread).
 final class Sound {
     static let shared = Sound()
 
     private let engine = AVAudioEngine()
-    private var source: AVAudioSourceNode?
+    private let streetPlayer = AVAudioPlayerNode()
+    private let firePlayer = AVAudioPlayerNode()
     private var players: [AVAudioPlayerNode] = []
     private var next = 0
     private var buffers: [String: AVAudioPCMBuffer] = [:]
+    private var lastPlayed: [String: CFTimeInterval] = [:]
     private let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
     private var started = false
 
-    // Parameters read by the render callback (written from the main thread).
-    private final class Params {
-        var street: Float = 0.5
-        var fire: Float = 0
-        var muted = false
+    var muted = false {
+        didSet { applyVolumes() }
     }
-    private let params = Params()
+    /// 0…1, how loud the street is.
+    var street: Float = 0.5 {
+        didSet { if abs(street - oldValue) > 0.02 { applyVolumes() } }
+    }
+    /// 0…1, wood fire crackle (only with the wood oven).
+    var fire: Float = 0 {
+        didSet { if abs(fire - oldValue) > 0.02 { applyVolumes() } }
+    }
 
-    var street: Float {
-        get { params.street }
-        set { params.street = max(0, min(1, newValue)) }
-    }
-    var fire: Float {
-        get { params.fire }
-        set { params.fire = max(0, min(1, newValue)) }
-    }
-    var muted: Bool {
-        get { params.muted }
-        set { params.muted = newValue }
+    private func applyVolumes() {
+        streetPlayer.volume = muted ? 0 : 0.55 * street
+        firePlayer.volume = muted ? 0 : 0.5 * fire
     }
 
     func start() {
@@ -40,107 +39,152 @@ final class Sound {
         try? AVAudioSession.sharedInstance().setCategory(.ambient, options: [.mixWithOthers])
         try? AVAudioSession.sharedInstance().setActive(true)
 
-        let p = params
-        var brown: Float = 0
-        var lp: Float = 0
-        var swell: Float = 0
-        var swellTarget: Float = 0
-        var swellTimer = 0
-        var crackle: Float = 0
-        var crackleLP: Float = 0
-        var seed: UInt32 = 0x1234_5678
-        func rnd() -> Float {
-            seed ^= seed << 13
-            seed ^= seed >> 17
-            seed ^= seed << 5
-            return Float(seed) / Float(UInt32.max) * 2 - 1
+        for p in [streetPlayer, firePlayer] {
+            engine.attach(p)
+            engine.connect(p, to: engine.mainMixerNode, format: format)
         }
-        let node = AVAudioSourceNode(format: format) { _, _, frameCount, abl -> OSStatus in
-            let buf = UnsafeMutableAudioBufferListPointer(abl)
-            guard let out = buf.first?.mData?.assumingMemoryBound(to: Float.self) else { return noErr }
-            let n = Int(frameCount)
-            let street = p.muted ? 0 : p.street
-            let fire = p.muted ? 0 : p.fire
-            for i in 0..<n {
-                // Distant traffic: brown noise, low-passed, with slow swells of passing cars.
-                let w = rnd()
-                brown = (brown + 0.02 * w) * 0.998
-                lp += 0.05 * (brown - lp)
-                swellTimer -= 1
-                if swellTimer <= 0 {
-                    swellTimer = 44_100 * Int(3 + abs(rnd()) * 6)
-                    swellTarget = abs(rnd()) < 0.55 ? 1 : 0.2
-                }
-                swell += (swellTarget - swell) * 0.00003
-                var s = lp * (0.9 + 2.2 * swell) * 1.6 * street
-                // Wood fire: sparse crackles over a soft hiss.
-                if fire > 0.01 {
-                    if abs(rnd()) > 0.9993 { crackle = rnd() * 0.9 }
-                    crackle *= 0.985
-                    crackleLP += 0.6 * (crackle - crackleLP)
-                    s += (crackleLP * 0.5 + rnd() * 0.004) * fire
-                }
-                out[i] = max(-1, min(1, s))
-            }
-            for b in buf.dropFirst() {
-                if let d = b.mData { memcpy(d, out, n * MemoryLayout<Float>.size) }
-            }
-            return noErr
-        }
-        source = node
-        engine.attach(node)
-        engine.connect(node, to: engine.mainMixerNode, format: format)
-        for _ in 0..<6 {
+        for _ in 0..<4 {
             let pl = AVAudioPlayerNode()
             engine.attach(pl)
             engine.connect(pl, to: engine.mainMixerNode, format: format)
             players.append(pl)
         }
-        buffers["cash"] = synth(0.55) { t in
-            let e = exp(-t * 9)
-            return (sin(2 * .pi * 2093 * t) * 0.5 + sin(2 * .pi * 3136 * t) * 0.3 + sin(2 * .pi * 4186 * t) * 0.12) * e * 0.35
-                + (t < 0.012 ? Float.random(in: -1...1) * 0.3 * (1 - t / 0.012) : 0)
+        let streetLoop = makeStreetLoop()
+        let fireLoop = makeFireLoop()
+        buffers["cash"] = synth(0.5) { t in
+            let e = exp(-t * 10)
+            return (sin(2 * .pi * 2093 * t) * 0.5 + sin(2 * .pi * 3136 * t) * 0.25 + sin(2 * .pi * 4186 * t) * 0.1) * e * 0.3
         }
-        buffers["door"] = synth(1.1) { t in
-            let a = sin(2 * .pi * 1318.5 * t) * exp(-t * 4.5)
+        buffers["door"] = synth(1.0) { t in
+            let a = sin(2 * .pi * 1318.5 * t) * exp(-t * 5)
             let t2 = max(0, t - 0.22)
-            let b = t > 0.22 ? sin(2 * .pi * 1046.5 * t2) * exp(-t2 * 4) : 0
-            return (a + b) * 0.22
+            let b = t > 0.22 ? sin(2 * .pi * 1046.5 * t2) * exp(-t2 * 4.5) : 0
+            return (a + b) * 0.16
         }
-        buffers["tap"] = synth(0.06) { t in sin(2 * .pi * 900 * t) * exp(-t * 80) * 0.25 }
         buffers["coins"] = synth(0.35) { t in
             var v: Float = 0
             for (k, f) in [(0.0, 3520.0), (0.06, 4186.0), (0.13, 3729.0)] as [(Float, Float)] where t >= k {
                 v += sin(2 * .pi * f * (t - k)) * exp(-(t - k) * 30)
             }
-            return v * 0.18
+            return v * 0.15
         }
-        engine.mainMixerNode.outputVolume = 0.8
+        engine.mainMixerNode.outputVolume = 0.9
+        engine.prepare()
         do {
             try engine.start()
+            streetPlayer.scheduleBuffer(streetLoop, at: nil, options: [.loops], completionHandler: nil)
+            firePlayer.scheduleBuffer(fireLoop, at: nil, options: [.loops], completionHandler: nil)
+            applyVolumes()
+            streetPlayer.play()
+            firePlayer.play()
             players.forEach { $0.play() }
         } catch {
             print("Sound: \(error)")
         }
+        NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] n in
+            guard let self, let raw = n.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  AVAudioSession.InterruptionType(rawValue: raw) == .ended else { return }
+            try? self.engine.start()
+            [self.streetPlayer, self.firePlayer].forEach { $0.play() }
+            self.players.forEach { $0.play() }
+        }
+    }
+
+    // MARK: synthesis
+
+    private struct Rng {
+        var s: UInt32 = 0x9E37_79B9
+        mutating func next() -> Float {
+            s ^= s << 13
+            s ^= s >> 17
+            s ^= s << 5
+            return Float(s) / Float(UInt32.max) * 2 - 1
+        }
+    }
+
+    private func buffer(_ frames: Int) -> (AVAudioPCMBuffer, UnsafeMutablePointer<Float>) {
+        let b = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frames))!
+        b.frameLength = AVAudioFrameCount(frames)
+        return (b, b.floatChannelData![0])
+    }
+
+    /// Makes the end of a loop fade into its start so it repeats without a click.
+    private func seamless(_ d: UnsafeMutablePointer<Float>, frames: Int, fade: Int) {
+        for i in 0..<fade {
+            let t = Float(i) / Float(fade)
+            d[i] = d[i] * t + d[frames - fade + i] * (1 - t)
+        }
+    }
+
+    /// 12 s of distant traffic: soft low rumble with a couple of passing cars.
+    private func makeStreetLoop() -> AVAudioPCMBuffer {
+        let sr = Int(format.sampleRate)
+        let total = sr * 12, fade = sr / 2
+        var rng = Rng()
+        var tmp = [Float](repeating: 0, count: total + fade)
+        var lp1: Float = 0, lp2: Float = 0, hp: Float = 0
+        let cars: [(Float, Float)] = [(2.5, 3.2), (7.0, 4.0), (10.5, 2.6)]   // centre (s), width (s)
+        for i in 0..<tmp.count {
+            let t = Float(i) / Float(sr)
+            let w = rng.next()
+            lp1 += 0.035 * (w - lp1)
+            lp2 += 0.035 * (lp1 - lp2)
+            hp = lp2
+            var swell: Float = 0.35
+            for (c, width) in cars {
+                let x = (t - c) / width
+                swell += 0.9 * exp(-x * x * 4)
+            }
+            tmp[i] = hp * 3.2 * swell
+        }
+        let (b, d) = buffer(total + fade)
+        for i in 0..<(total + fade) { d[i] = max(-0.9, min(0.9, tmp[i])) }
+        seamless(d, frames: total + fade, fade: fade)
+        b.frameLength = AVAudioFrameCount(total)
+        return b
+    }
+
+    /// 6 s of a wood fire: soft hiss with gentle crackles.
+    private func makeFireLoop() -> AVAudioPCMBuffer {
+        let sr = Int(format.sampleRate)
+        let total = sr * 6, fade = sr / 3
+        var rng = Rng(s: 0x1234_5678)
+        let (b, d) = buffer(total + fade)
+        var crack: Float = 0, lp: Float = 0, hiss: Float = 0
+        for i in 0..<(total + fade) {
+            if abs(rng.next()) > 0.99975 { crack = rng.next() * 0.35 }
+            crack *= 0.992
+            lp += 0.25 * (crack - lp)
+            let w = rng.next()
+            hiss += 0.3 * (w - hiss)
+            d[i] = lp * 0.8 + hiss * 0.015
+        }
+        seamless(d, frames: total + fade, fade: fade)
+        b.frameLength = AVAudioFrameCount(total)
+        return b
     }
 
     private func synth(_ seconds: Double, _ f: (Float) -> Float) -> AVAudioPCMBuffer {
-        let frames = AVAudioFrameCount(seconds * format.sampleRate)
-        let b = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frames)!
-        b.frameLength = frames
-        let d = b.floatChannelData![0]
-        for i in 0..<Int(frames) {
-            d[i] = f(Float(i) / Float(format.sampleRate))
+        let frames = Int(seconds * format.sampleRate)
+        let (b, d) = buffer(frames)
+        for i in 0..<frames {
+            let t = Float(i) / Float(format.sampleRate)
+            let fadeOut = min(1, Float(frames - i) / 400)
+            d[i] = f(t) * fadeOut
         }
         return b
     }
 
-    func play(_ name: String, volume: Float = 1) {
-        guard started, !params.muted, let b = buffers[name], engine.isRunning, !players.isEmpty else { return }
+    /// Plays a one-shot; the same sound is not repeated more often than `minGap` seconds.
+    func play(_ name: String, volume: Float = 1, minGap: CFTimeInterval = 0.35) {
+        guard started, !muted, let b = buffers[name], engine.isRunning, !players.isEmpty else { return }
+        let now = CACurrentMediaTime()
+        if let last = lastPlayed[name], now - last < minGap { return }
+        lastPlayed[name] = now
         let p = players[next % players.count]
         next += 1
         p.volume = volume
-        p.scheduleBuffer(b, at: nil, options: [], completionHandler: nil)
+        p.scheduleBuffer(b, at: nil, options: [.interrupts], completionHandler: nil)
         if !p.isPlaying { p.play() }
     }
 }
