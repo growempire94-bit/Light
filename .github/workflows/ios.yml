@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - 'Pizzeria/**'
       - '.github/workflows/pizza.yml'
+      - '.github/workflows/pizza-shots.yml'
   workflow_dispatch:
 
 concurrency:

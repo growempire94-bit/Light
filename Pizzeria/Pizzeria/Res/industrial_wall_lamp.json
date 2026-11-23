@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "industrial_wall_lamp",
+   "diffuse": "industrial_wall_lamp_diff.jpg",
+   "normal": "industrial_wall_lamp_nor_gl.jpg",
+   "arm": "industrial_wall_lamp_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "industrial_wall_lamp_glass",
+   "diffuse": "industrial_wall_lamp_glass_diff.jpg",
+   "normal": "industrial_wall_lamp_glass_nor_gl.jpg",
+   "arm": "industrial_wall_lamp_glass_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "BLEND",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

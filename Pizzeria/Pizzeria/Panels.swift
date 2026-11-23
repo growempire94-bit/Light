@@ -3,8 +3,8 @@ import SwiftUI
 
 struct PanelView: View {
     @EnvironmentObject var engine: Engine
-    @Environment(\.dismiss) private var dismiss
     let panel: Panel
+    var close: () -> Void = {}
 
     var body: some View {
         NavigationStack {
@@ -25,7 +25,11 @@ struct PanelView: View {
                     Text(Fmt.money(engine.state.money)).monospacedDigit().font(.subheadline.weight(.semibold))
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Готово") { dismiss() }
+                    Button {
+                        close()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill").font(.title3).symbolRenderingMode(.hierarchical)
+                    }
                 }
             }
         }
@@ -351,40 +355,49 @@ struct IntroView: View {
     @EnvironmentObject var engine: Engine
 
     var body: some View {
-        ZStack {
-            LinearGradient(colors: [Color(red: 0.12, green: 0.07, blue: 0.05), Color(red: 0.05, green: 0.05, blue: 0.06)],
-                           startPoint: .top, endPoint: .bottom).ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-                    Text("Своя пиццерия").font(.system(size: 34, weight: .heavy, design: .rounded))
-                    Text("Вы арендовали помещение 60 м² на тихой улице в центре Одессы. Аренда \(Fmt.money(Econ.rentPerMonth)) в месяц. На счету \(Fmt.money(Econ.startMoney)) сбережений.")
+        HStack(spacing: 0) {
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 14) {
+                    Text("Своя пиццерия").font(.system(size: 32, weight: .heavy, design: .rounded))
+                    Text("Вы арендовали помещение 60 м² на тихой улице в центре Одессы. Аренда \(Fmt.money(Econ.rentPerMonth)) в месяц, на счету \(Fmt.money(Econ.startMoney)) сбережений.")
+                        .font(.subheadline)
                     Text("Пока вы один: принимаете заказы и сами печёте в простой электропечи. Каждая пицца стоит денег: продукты, коробка, электричество. В конце дня приходят аренда, налог 5% и зарплаты.")
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Следите за ценами: дорого = мало гостей", systemImage: "tag")
-                        Label("Длинная очередь = гости уходят", systemImage: "person.3.sequence")
-                        Label("Отзывы решают, сколько людей зайдёт", systemImage: "star")
-                        Label("Бывают отключения света по графику", systemImage: "bolt.slash")
-                        Label("Три дня подряд в минусе = банкротство", systemImage: "exclamationmark.triangle")
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    Text("Покрутите камеру пальцем, щипок — приблизить. Скорость времени — сверху справа.")
-                        .font(.footnote).foregroundStyle(.secondary)
+                        .font(.subheadline).foregroundStyle(.secondary)
                     Button {
                         engine.startGame()
                     } label: {
                         Text("Открыть пиццерию")
                             .font(.headline)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color.orange, in: RoundedRectangle(cornerRadius: 16))
+                            .padding(.vertical, 14)
+                            .background(Color.orange, in: RoundedRectangle(cornerRadius: 14))
                             .foregroundStyle(.black)
                     }
-                    .padding(.top, 8)
+                    .padding(.top, 4)
                 }
-                .padding(24)
+                .padding(22)
             }
+            .frame(width: 390)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+            VStack(alignment: .leading, spacing: 10) {
+                Label("Дорого — мало гостей, дёшево — нет прибыли", systemImage: "tag")
+                Label("Длинная очередь — гости уходят", systemImage: "person.3.sequence")
+                Label("Отзывы решают, сколько людей зайдёт", systemImage: "star")
+                Label("Бывают отключения света по графику", systemImage: "bolt.slash")
+                Label("Три дня подряд в минусе — банкротство", systemImage: "exclamationmark.triangle")
+                Divider().padding(.vertical, 2)
+                Label("Палец — двигать камеру, щипок — зум, два пальца — наклон и поворот", systemImage: "hand.draw")
+                Label("Нажмите на печь, столы или вывеску, чтобы улучшить", systemImage: "hand.tap")
+            }
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+            .padding(18)
+            .frame(maxWidth: 340)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .padding(.leading, 14)
         }
+        .padding(.vertical, 12)
     }
 }
 
@@ -393,25 +406,22 @@ struct ReportView: View {
 
     var body: some View {
         if let r = engine.report {
-            NavigationStack {
-                List {
-                    Section {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(Fmt.signed(r.profit))
-                                .font(.system(size: 40, weight: .heavy, design: .rounded))
-                                .monospacedDigit()
-                                .foregroundStyle(r.profit >= 0 ? Color.green : Color.red)
-                            Text(r.profit >= 0 ? "Чистая прибыль за день" : "Убыток за день").foregroundStyle(.secondary)
-                        }
-                        .padding(.vertical, 6)
-                        LabeledContent("На счету", value: Fmt.money(engine.state.money))
-                        if engine.state.negativeDays > 0 {
-                            Text("Счёт в минусе \(engine.state.negativeDays) дн. На третий день пиццерия закроется.")
-                                .font(.footnote).foregroundStyle(.red)
-                        }
+            HStack(alignment: .top, spacing: 16) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Итоги дня \(r.day)").font(.headline).foregroundStyle(.secondary)
+                    Text(Fmt.signed(r.profit))
+                        .font(.system(size: 44, weight: .heavy, design: .rounded))
+                        .monospacedDigit()
+                        .foregroundStyle(r.profit >= 0 ? Color.green : Color.red)
+                    Text(r.profit >= 0 ? "Чистая прибыль за день" : "Убыток за день").font(.subheadline).foregroundStyle(.secondary)
+                    LabeledContent("На счету", value: Fmt.money(engine.state.money)).font(.subheadline.weight(.semibold))
+                    if engine.state.negativeDays > 0 {
+                        Text("Счёт в минусе \(engine.state.negativeDays) дн. На третий день пиццерия закроется.")
+                            .font(.footnote).foregroundStyle(.red)
                     }
-                    Section("Гости") {
-                        LabeledContent("Зашли", value: "\(r.guests)")
+                    Divider()
+                    Group {
+                        LabeledContent("Зашли гостей", value: "\(r.guests)")
                         LabeledContent("Продано пицц", value: "\(r.pizzas)")
                         if r.deliveryOrders > 0 { LabeledContent("Из них доставка", value: "\(r.deliveryOrders)") }
                         if r.coffees > 0 { LabeledContent("Кофе", value: "\(r.coffees)") }
@@ -419,8 +429,25 @@ struct ReportView: View {
                         LabeledContent("Рейтинг", value: r.rating > 0 ? String(format: "%.1f ★", r.rating) : "нет отзывов")
                         if r.outageHours > 0 { LabeledContent("Без света", value: String(format: "%.0f ч", r.outageHours)) }
                     }
-                    Section("Деньги") {
+                    .font(.footnote)
+                    Spacer(minLength: 0)
+                    Button {
+                        engine.startNextDay()
+                    } label: {
+                        Text("Открыть день \(r.day + 1)")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background(Color.orange, in: RoundedRectangle(cornerRadius: 14))
+                            .foregroundStyle(.black)
+                    }
+                }
+                .frame(width: 270)
+
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 7) {
                         line("Выручка", r.revenue, positive: true)
+                        Divider()
                         line("Продукты", r.ingredients)
                         line("Упаковка", r.packaging)
                         line("Эквайринг", r.acquiring)
@@ -433,23 +460,20 @@ struct ReportView: View {
                         line("Налог 5% и ЕСВ", r.tax)
                         if r.commission > 0 {
                             Text("Сервис доставки удержал \(Fmt.money(r.commission)) комиссии").font(.caption).foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         if r.investments > 0 {
                             Text("Вложения в бизнес сегодня: \(Fmt.money(r.investments)). Они не входят в прибыль").font(.caption).foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
-                    Section {
-                        Button {
-                            engine.startNextDay()
-                        } label: {
-                            Text("Открыть день \(r.day + 1)")
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
-                        }
-                    }
+                    .font(.subheadline)
                 }
-                .navigationTitle("Итоги дня \(r.day)")
+                .frame(width: 300)
             }
+            .padding(20)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .padding(.vertical, 12)
         }
     }
 
@@ -468,9 +492,9 @@ struct GameOverView: View {
     @EnvironmentObject var engine: Engine
 
     var body: some View {
-        VStack(spacing: 18) {
-            Image(systemName: "door.left.hand.closed").font(.system(size: 56))
-            Text("Пиццерия закрылась").font(.title.weight(.heavy))
+        VStack(spacing: 14) {
+            Image(systemName: "door.left.hand.closed").font(.system(size: 44))
+            Text("Пиццерия закрылась").font(.title2.weight(.heavy))
             Text("Три дня подряд счёт был в минусе. Аренду и зарплаты платить нечем.")
                 .multilineTextAlignment(.center).foregroundStyle(.secondary)
             if let best = engine.state.history.map(\.profit).max() {
@@ -482,11 +506,13 @@ struct GameOverView: View {
                 Text("Попробовать снова")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
+                    .padding(.vertical, 13)
                     .background(Color.orange, in: RoundedRectangle(cornerRadius: 14))
                     .foregroundStyle(.black)
             }
         }
-        .padding(28)
+        .padding(26)
+        .frame(width: 420)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
     }
 }

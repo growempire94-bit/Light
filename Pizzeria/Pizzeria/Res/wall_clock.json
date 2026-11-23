@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "wall_clock",
+   "diffuse": "wall_clock_diff.jpg",
+   "normal": "wall_clock_nor_gl.jpg",
+   "arm": "wall_clock_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wall_clock_glass",
+   "diffuse": null,
+   "normal": null,
+   "arm": "wall_clock_glass_arm.jpg",
+   "ao": null,
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    0.4000000059604645
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "BLEND",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

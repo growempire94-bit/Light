@@ -1,0 +1,76 @@
+{
+ "materials": [
+  {
+   "name": "metal_trash_can",
+   "diffuse": "metal_trash_can_diff.jpg",
+   "normal": "metal_trash_can_nor_gl.jpg",
+   "arm": "metal_trash_can_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "unused",
+   "diffuse": null,
+   "normal": null,
+   "arm": null,
+   "ao": null,
+   "color": [
+    0.8,
+    0.8,
+    0.8,
+    1
+   ],
+   "metal": 0,
+   "rough": 0.8,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": false,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "unused",
+   "diffuse": null,
+   "normal": null,
+   "arm": null,
+   "ao": null,
+   "color": [
+    0.8,
+    0.8,
+    0.8,
+    1
+   ],
+   "metal": 0,
+   "rough": 0.8,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": false,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

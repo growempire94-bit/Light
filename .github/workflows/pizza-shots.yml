@@ -1,0 +1,86 @@
+name: Pizzeria screenshots
+
+# Builds the game for the iOS Simulator, plays a scripted session (launch argument -shots)
+# and stores the screenshots plus build/app logs under refs/ci/pizza-shots for review.
+on:
+  push:
+    paths:
+      - 'Pizzeria/**'
+      - '.github/workflows/pizza-shots.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: pizza-shots-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  shots:
+    runs-on: macos-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build for simulator
+        run: |
+          set -o pipefail
+          mkdir -p out
+          xcodebuild -version | tee out/build.log
+          xcodebuild build \
+            -project Pizzeria/Pizzeria.xcodeproj -scheme Pizzeria -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO 2>&1 | tee -a out/build.log | grep -E "error:|BUILD (SUCCEEDED|FAILED)" || true
+          grep -E "error:" out/build.log > out/errors.txt || true
+          test -d build/Build/Products/Debug-iphonesimulator/Pizzeria.app
+
+      - name: Boot simulator
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)['devices']
+          c = [x for k, v in d.items() if 'iOS' in k for x in v if x['name'].startswith('iPhone') and 'Pro' in x['name'] and 'Max' not in x['name']]
+          c = c or [x for k, v in d.items() if 'iOS' in k for x in v if x['name'].startswith('iPhone')]
+          print(c[-1]['udid'])")
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl list devices | grep "$UDID" | tee out/device.txt
+
+      - name: Play and capture
+        run: |
+          APP=build/Build/Products/Debug-iphonesimulator/Pizzeria.app
+          BID=$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$APP/Info.plist")
+          xcrun simctl install "$UDID" "$APP"
+          xcrun simctl launch --console-pty "$UDID" "$BID" -shots > out/app.log 2>&1 &
+          sleep 8
+          DATA=$(xcrun simctl get_app_container "$UDID" "$BID" data)
+          for i in 1 2 3 4 5 6 7 8; do
+            ok=0
+            for t in $(seq 1 180); do
+              if [ -f "$DATA/Documents/ready-$i" ]; then ok=1; break; fi
+              sleep 1
+            done
+            xcrun simctl io "$UDID" screenshot "out/shot-$i.png" || true
+            echo "shot $i ready=$ok" >> out/progress.txt
+            touch "$DATA/Documents/go-$i"
+            [ $ok = 1 ] || break
+          done
+          sleep 2
+          xcrun simctl spawn "$UDID" log show --last 10m --style compact --predicate 'process == "Pizzeria"' > out/system.log 2>&1 || true
+          ls -la ~/Library/Logs/DiagnosticReports/ > out/crashes.txt 2>&1 || true
+          cp ~/Library/Logs/DiagnosticReports/Pizzeria* out/ 2>/dev/null || true
+
+      - name: Publish to refs/ci/pizza-shots
+        if: always()
+        run: |
+          mkdir -p out
+          cd out
+          for f in shot-*.png; do [ -f "$f" ] && sips -s format jpeg -s formatOptions 80 "$f" --out "${f%.png}.jpg" >/dev/null && rm "$f"; done
+          echo "${GITHUB_SHA}" > commit.txt
+          git init -q
+          git checkout -q -b shots
+          git add -A
+          git -c user.name="pizza-ci" -c user.email="pizza-ci@users.noreply.github.com" commit -qm "Screenshots for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" shots:refs/ci/pizza-shots

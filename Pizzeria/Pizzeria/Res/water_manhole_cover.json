@@ -1,0 +1,30 @@
+{
+ "materials": [
+  {
+   "name": "water_manhole_cover",
+   "diffuse": "water_manhole_cover_diff.jpg",
+   "normal": "water_manhole_cover_nor_gl.jpg",
+   "arm": "water_manhole_cover_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

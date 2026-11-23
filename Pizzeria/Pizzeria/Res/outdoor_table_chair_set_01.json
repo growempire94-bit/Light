@@ -1,0 +1,55 @@
+{
+ "materials": [
+  {
+   "name": "outdoor_table_chair_set_01_chair",
+   "diffuse": "outdoor_table_chair_set_01_chair_diff.jpg",
+   "normal": "outdoor_table_chair_set_01_chair_nor_gl.jpg",
+   "arm": "outdoor_table_chair_set_01_chair_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "outdoor_table_chair_set_01_table",
+   "diffuse": "outdoor_table_chair_set_01_table_diff.jpg",
+   "normal": "outdoor_table_chair_set_01_table_nor_gl.jpg",
+   "arm": "outdoor_table_chair_set_01_table_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "outdoor_table_chair_set_01_chair_01",
+  "outdoor_table_chair_set_01_table",
+  "outdoor_table_chair_set_01_chair_02"
+ ]
+}

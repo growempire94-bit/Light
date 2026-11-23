@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "potted_plant_02_pot",
+   "diffuse": "potted_plant_02_pot_diff.jpg",
+   "normal": "potted_plant_02_pot_nor_gl.jpg",
+   "arm": "potted_plant_02_pot_rough.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "potted_plant_02_leaves",
+   "diffuse": "potted_plant_02_leaves_diff.jpg",
+   "normal": "potted_plant_02_leaves_nor_gl.jpg",
+   "arm": "potted_plant_02_leaves_rough.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "MASK",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "materials": [
+  {
+   "name": "hanging_picture_frame_02_artwork",
+   "diffuse": "hanging_picture_frame_02_artwork_diff.jpg",
+   "normal": "hanging_picture_frame_02_artwork_nor_gl.jpg",
+   "arm": "hanging_picture_frame_02_artwork_roughness.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hanging_picture_frame_02",
+   "diffuse": "hanging_picture_frame_02_diff.jpg",
+   "normal": "hanging_picture_frame_02_nor_gl.jpg",
+   "arm": "hanging_picture_frame_02_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hanging_picture_frame_02_glass",
+   "diffuse": "hanging_picture_frame_02_diff.jpg",
+   "normal": "hanging_picture_frame_02_nor_gl.jpg",
+   "arm": "hanging_picture_frame_02_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "BLEND",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "materials": [
+  {
+   "name": "trashbag",
+   "diffuse": "trashbag_diff.jpg",
+   "normal": "trashbag_nor_gl.jpg",
+   "arm": "trashbag_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

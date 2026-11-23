@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "portable_generator",
+   "diffuse": "portable_generator_diff.jpg",
+   "normal": "portable_generator_nor_gl.jpg",
+   "arm": "portable_generator_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "portable_generator_glass",
+   "diffuse": "portable_generator_diff.jpg",
+   "normal": "portable_generator_nor_gl.jpg",
+   "arm": "portable_generator_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "BLEND",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

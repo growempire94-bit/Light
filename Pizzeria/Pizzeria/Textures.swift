@@ -164,25 +164,124 @@ enum Tex {
         }
     }
 
-    static func pizzaTop() -> UIImage {
-        draw(256, 256) { c, size in
-            UIColor(red: 0.80, green: 0.55, blue: 0.27, alpha: 1).setFill()
+    static func drawAlpha(_ w: Int, _ h: Int, _ body: (CGContext, CGSize) -> Void) -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = false
+        let size = CGSize(width: w, height: h)
+        return UIGraphicsImageRenderer(size: size, format: format).image { ctx in
+            body(ctx.cgContext, size)
+        }
+    }
+
+    /// Top of a pizza: charred crust, sauce, melted cheese and toppings. `raw` = before baking.
+    static func pizzaTop(raw: Bool = false) -> UIImage {
+        draw(512, 512) { c, size in
+            var rng = SeededRandom(seed: raw ? 5 : 9)
+            func rnd(_ a: Double, _ b: Double) -> CGFloat { CGFloat(rng.range(a, b)) }
+            let centre = CGPoint(x: 256, y: 256)
+            (raw ? UIColor(red: 0.93, green: 0.86, blue: 0.72, alpha: 1) : UIColor(red: 0.80, green: 0.55, blue: 0.28, alpha: 1)).setFill()
             c.fill(CGRect(origin: .zero, size: size))
-            UIColor(red: 0.78, green: 0.22, blue: 0.12, alpha: 1).setFill()
-            c.fillEllipse(in: CGRect(x: 22, y: 22, width: 212, height: 212))
-            for i in 0..<26 {
-                let a = Float(i) * 2.399
-                let r = 20 + Float(i % 7) * 13
-                let px = 128 + CGFloat(cos(a) * r), py = 128 + CGFloat(sin(a) * r)
-                UIColor(red: 0.98, green: 0.90, blue: 0.66, alpha: 0.95).setFill()
-                c.fillEllipse(in: CGRect(x: px - 14, y: py - 12, width: 28, height: 24))
+            if !raw {
+                // Leopard spots on the cornicione.
+                for _ in 0..<70 {
+                    let a = rnd(0, 6.283), r = rnd(214, 250), s = rnd(6, 20)
+                    UIColor(red: 0.25, green: 0.14, blue: 0.07, alpha: rnd(0.35, 0.8)).setFill()
+                    c.fillEllipse(in: CGRect(x: centre.x + cos(a) * r - s / 2, y: centre.y + sin(a) * r - s / 2, width: s, height: s * rnd(0.7, 1.2)))
+                }
             }
-            for i in 0..<10 {
-                let a = Float(i) * 0.63 + 0.3
-                let r: Float = 30 + Float(i % 3) * 28
+            // Sauce.
+            (raw ? UIColor(red: 0.80, green: 0.20, blue: 0.10, alpha: 1) : UIColor(red: 0.72, green: 0.20, blue: 0.08, alpha: 1)).setFill()
+            c.fillEllipse(in: CGRect(x: 44, y: 44, width: 424, height: 424))
+            // Cheese.
+            for _ in 0..<(raw ? 140 : 46) {
+                let a = rnd(0, 6.283), r = rnd(0, 175)
+                let s = raw ? rnd(8, 16) : rnd(40, 78)
+                (raw ? UIColor(red: 0.98, green: 0.97, blue: 0.92, alpha: 0.95) : UIColor(red: 0.99, green: 0.88, blue: 0.58, alpha: 0.92)).setFill()
+                c.fillEllipse(in: CGRect(x: centre.x + cos(a) * r - s / 2, y: centre.y + sin(a) * r - s / 2, width: s, height: s * rnd(0.6, 1.0)))
+            }
+            if !raw {
+                for _ in 0..<40 {
+                    let a = rnd(0, 6.283), r = rnd(0, 180), s = rnd(5, 14)
+                    UIColor(red: 0.62, green: 0.38, blue: 0.14, alpha: 0.55).setFill()
+                    c.fillEllipse(in: CGRect(x: centre.x + cos(a) * r - s / 2, y: centre.y + sin(a) * r - s / 2, width: s, height: s))
+                }
+            }
+            // Salami.
+            for i in 0..<11 {
+                let a = CGFloat(i) * 2.399 + 0.4, r: CGFloat = i == 0 ? 0 : 40 + CGFloat(i % 4) * 38
+                let s: CGFloat = 46
+                let p = CGPoint(x: centre.x + cos(a) * r - s / 2, y: centre.y + sin(a) * r - s / 2)
                 UIColor(red: 0.62, green: 0.12, blue: 0.10, alpha: 1).setFill()
-                c.fillEllipse(in: CGRect(x: 128 + CGFloat(cos(a) * r) - 11, y: 128 + CGFloat(sin(a) * r) - 11, width: 22, height: 22))
+                c.fillEllipse(in: CGRect(origin: p, size: CGSize(width: s, height: s)))
+                UIColor(red: 0.45, green: 0.07, blue: 0.06, alpha: 0.6).setStroke()
+                c.setLineWidth(4)
+                c.strokeEllipse(in: CGRect(origin: p, size: CGSize(width: s, height: s)).insetBy(dx: 2, dy: 2))
             }
+            // Basil.
+            if !raw {
+                for i in 0..<5 {
+                    let a = CGFloat(i) * 1.25 + 1, r: CGFloat = 70 + CGFloat(i % 2) * 60
+                    UIColor(red: 0.16, green: 0.36, blue: 0.10, alpha: 1).setFill()
+                    c.fillEllipse(in: CGRect(x: centre.x + cos(a) * r - 14, y: centre.y + sin(a) * r - 8, width: 28, height: 16))
+                }
+            }
+        }
+    }
+
+    static func pizzaBoxLid() -> UIImage {
+        draw(256, 256) { c, size in
+            UIColor(red: 0.82, green: 0.68, blue: 0.48, alpha: 1).setFill()
+            c.fill(CGRect(origin: .zero, size: size))
+            UIColor(red: 0.62, green: 0.12, blue: 0.10, alpha: 1).setFill()
+            c.fillEllipse(in: CGRect(x: 58, y: 58, width: 140, height: 140))
+            let a: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 34, weight: .black), .foregroundColor: UIColor.white]
+            let t = "PIZZA" as NSString
+            let ts = t.size(withAttributes: a)
+            t.draw(at: CGPoint(x: (size.width - ts.width) / 2, y: (size.height - ts.height) / 2), withAttributes: a)
+        }
+    }
+
+    /// Shop sign or banner: coloured panel with white bold text (and a pharmacy cross).
+    static func shopSign(_ text: String, bg: UIColor, cross: Bool) -> UIImage {
+        draw(1024, 128) { c, size in
+            bg.setFill()
+            c.fill(CGRect(origin: .zero, size: size))
+            var x: CGFloat = 0
+            if cross {
+                UIColor.white.setFill()
+                c.fill(CGRect(x: 40, y: 49, width: 64, height: 30))
+                c.fill(CGRect(x: 57, y: 32, width: 30, height: 64))
+                x = 60
+            }
+            let a: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 78, weight: .heavy), .foregroundColor: UIColor.white, .kern: 6]
+            let t = text as NSString
+            let ts = t.size(withAttributes: a)
+            t.draw(at: CGPoint(x: (size.width - ts.width) / 2 + x, y: (size.height - ts.height) / 2), withAttributes: a)
+        }
+    }
+
+    static func posScreen() -> UIImage {
+        draw(256, 160) { c, size in
+            UIColor(red: 0.07, green: 0.09, blue: 0.12, alpha: 1).setFill()
+            c.fill(CGRect(origin: .zero, size: size))
+            let cols = [UIColor(red: 0.9, green: 0.35, blue: 0.2, alpha: 1), UIColor(red: 0.3, green: 0.6, blue: 0.9, alpha: 1),
+                        UIColor(red: 0.4, green: 0.75, blue: 0.4, alpha: 1), UIColor(red: 0.95, green: 0.75, blue: 0.3, alpha: 1)]
+            for i in 0..<8 {
+                cols[i % 4].setFill()
+                c.fill(CGRect(x: 10 + CGFloat(i % 4) * 46, y: 14 + CGFloat(i / 4) * 52, width: 40, height: 44))
+            }
+            UIColor(white: 0.85, alpha: 1).setFill()
+            c.fill(CGRect(x: 196, y: 14, width: 50, height: 132))
+        }
+    }
+
+    /// Round soft particle sprite.
+    static func softDot() -> UIImage {
+        drawAlpha(64, 64) { c, size in
+            let colors = [UIColor(white: 1, alpha: 1).cgColor, UIColor(white: 1, alpha: 0).cgColor]
+            let g = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: colors as CFArray, locations: [0, 1])!
+            c.drawRadialGradient(g, startCenter: CGPoint(x: 32, y: 32), startRadius: 0, endCenter: CGPoint(x: 32, y: 32), endRadius: 32, options: [])
         }
     }
 
@@ -282,12 +381,17 @@ enum Tex {
     }
 
     static func windowDecal() -> UIImage {
-        draw(512, 256) { c, size in
-            UIColor(white: 0, alpha: 1).setFill()
-            c.fill(CGRect(origin: .zero, size: size))
-            let a: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 58, weight: .black),
-                                                    .foregroundColor: UIColor(red: 1, green: 0.85, blue: 0.5, alpha: 1)]
-            ("ПИЦЦА · КОФЕ" as NSString).draw(at: CGPoint(x: 40, y: 90), withAttributes: a)
+        drawAlpha(1024, 512) { c, size in
+            let a: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 120, weight: .black),
+                                                    .foregroundColor: UIColor(white: 1, alpha: 0.92), .kern: 8]
+            let t = "ПИЦЦА · КОФЕ" as NSString
+            let ts = t.size(withAttributes: a)
+            t.draw(at: CGPoint(x: (size.width - ts.width) / 2, y: 120), withAttributes: a)
+            let b: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 58, weight: .semibold),
+                                                    .foregroundColor: UIColor(red: 1, green: 0.82, blue: 0.4, alpha: 0.95)]
+            let u = "на вынос  ·  доставка  ·  10:00–22:00" as NSString
+            let us = u.size(withAttributes: b)
+            u.draw(at: CGPoint(x: (size.width - us.width) / 2, y: 290), withAttributes: b)
         }
     }
 

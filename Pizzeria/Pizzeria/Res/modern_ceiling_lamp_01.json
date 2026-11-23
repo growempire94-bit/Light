@@ -1,0 +1,76 @@
+{
+ "materials": [
+  {
+   "name": "modern_ceiling_lamp_01_glass",
+   "diffuse": "modern_ceiling_lamp_01_diff.jpg",
+   "normal": "modern_ceiling_lamp_01_nor_gl.jpg",
+   "arm": "modern_ceiling_lamp_01_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "modern_ceiling_lamp_01",
+   "diffuse": "modern_ceiling_lamp_01_diff.jpg",
+   "normal": "modern_ceiling_lamp_01_nor_gl.jpg",
+   "arm": "modern_ceiling_lamp_01_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "modern_ceiling_globe",
+   "diffuse": "modern_ceiling_lamp_01_diff.jpg",
+   "normal": "modern_ceiling_lamp_01_nor_gl.jpg",
+   "arm": "modern_ceiling_lamp_01_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0.6229580640792847,
+    0.5416215658187866,
+    0.4745504856109619
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

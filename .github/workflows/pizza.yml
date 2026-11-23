@@ -1,10 +1,7 @@
 name: Pizzeria build & TestFlight
 
 on:
-  push:
-    paths:
-      - 'Pizzeria/**'
-      - '.github/workflows/pizza.yml'
+  # Uploads to TestFlight only when started by hand; every push gets simulator screenshots instead (pizza-shots.yml).
   workflow_dispatch:
 
 concurrency:

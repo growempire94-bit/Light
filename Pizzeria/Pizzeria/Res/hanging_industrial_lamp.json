@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "hanging_industrial_lamp",
+   "diffuse": "hanging_industrial_lamp_diff.jpg",
+   "normal": "hanging_industrial_lamp_nor_gl.jpg",
+   "arm": "hanging_industrial_lamp_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "hanging_industrial_lamp_glass",
+   "diffuse": null,
+   "normal": "hanging_industrial_lamp_glass_nor_gl.jpg",
+   "arm": null,
+   "ao": null,
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1
+   ],
+   "metal": 0,
+   "rough": 0.10000000149011612,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

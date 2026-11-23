@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "plastic_broom",
+   "diffuse": "plastic_broom_diff.jpg",
+   "normal": "plastic_broom_nor_gl.jpg",
+   "arm": "plastic_broom_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plastic_broom_bristles",
+   "diffuse": "plastic_broom_diff.jpg",
+   "normal": "plastic_broom_nor_gl.jpg",
+   "arm": "plastic_broom_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "BLEND",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

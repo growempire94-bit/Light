@@ -1,0 +1,30 @@
+{
+ "materials": [
+  {
+   "name": "wooden_cutting_board",
+   "diffuse": "wooden_cutting_board_diff.jpg",
+   "normal": "wooden_cutting_board_nor_gl.jpg",
+   "arm": "wooden_cutting_board_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

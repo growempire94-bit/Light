@@ -1,0 +1,54 @@
+{
+ "materials": [
+  {
+   "name": "rollershutter_window_01",
+   "diffuse": "rollershutter_window_01_diff.jpg",
+   "normal": "rollershutter_window_01_nor_gl.jpg",
+   "arm": "rollershutter_window_01_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rollershutter_window_01_graffiti",
+   "diffuse": "rollershutter_window_01_graffiti_diff.jpg",
+   "normal": "rollershutter_window_01_nor_gl.jpg",
+   "arm": "rollershutter_window_01_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "rollershutter_window_01",
+  "rollershutter_window_01_graffiti"
+ ]
+}

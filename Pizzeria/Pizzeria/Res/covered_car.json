@@ -1,0 +1,53 @@
+{
+ "materials": [
+  {
+   "name": "covered_car",
+   "diffuse": "covered_car_diff.jpg",
+   "normal": "covered_car_nor_gl.jpg",
+   "arm": "covered_car_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "covered_car",
+   "diffuse": "covered_car_diff.jpg",
+   "normal": "covered_car_nor_gl.jpg",
+   "arm": "covered_car_arm.jpg",
+   "ao": null,
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "metal": 1.0,
+   "rough": 1.0,
+   "alpha": "OPAQUE",
+   "cutoff": 0.5,
+   "doubleSided": true,
+   "emissive": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "parts": [
+  "root"
+ ]
+}

@@ -108,6 +108,7 @@ final class Engine: NSObject, ObservableObject {
     @Published var toast: String?
     @Published var speed: Int = 1
     @Published var gameOver = false
+    @Published var panel: Panel?
 
     let world = World()
 
@@ -247,12 +248,27 @@ final class Engine: NSObject, ObservableObject {
         world.update(dt: Float(realDt), visualSpeed: Float(running ? speed : 0), World.Ambience(
             minute: minute, interiorPowered: interiorPowered, streetPowered: !outageNow,
             ovenBusy: Float(ovenSlots.compactMap { $0 }.count) / Float(max(1, ovenSlots.count)),
-            ovenWorking: canBake && (minute < Econ.closeMinute + 30)))
+            ovenWorking: canBake && (minute < Econ.closeMinute + 30),
+            ovenPizzas: ovenSlots.compactMap { $0 }.count,
+            prepping: prepStations(),
+            readyBoxes: orders.filter { $0.stage == .ready }.count))
         hudClock += realDt
         if hudClock > 0.25 {
             hudClock = 0
             publishHUD()
         }
+    }
+
+    /// Which cook stations have a pizza being assembled right now.
+    private func prepStations() -> [Bool] {
+        var out = [Bool](repeating: false, count: Spot.cooks.count)
+        for w in workers {
+            guard case .prepping = w.task, simd_distance(w.pos, w.target) < 0.3 else { continue }
+            if let i = Spot.cooks.firstIndex(where: { simd_distance($0, w.station) < 0.05 || simd_distance($0, w.target) < 0.05 }) {
+                out[i] = true
+            }
+        }
+        return out
     }
 
     private func step(game dt: Double, visual vdt: Float) {
@@ -457,12 +473,14 @@ final class Engine: NSObject, ObservableObject {
                     c.person.faceToward(world.seats[c.seat].facing)
                     c.person.carrying = false
                     c.person.sit(true)
+                    world.setEating(seat: c.seat, true)
                     c.timer = Double.random(in: 900...1500)
                 }
             case .eating:
                 c.timer -= dt
                 if c.timer <= 0 {
                     c.person.sit(false)
+                    world.setEating(seat: c.seat, false)
                     review(c, dineIn: true)
                     cleanliness = max(0, cleanliness - 0.035)
                     if c.seat >= 0 && c.seat < seatTaken.count { seatTaken[c.seat] = false }
@@ -546,15 +564,21 @@ final class Engine: NSObject, ObservableObject {
                 role = .cleaner
                 station = Spot.cleanerRoute[0]
             }
-            let outfit: PersonNode.Outfit = def.role == .cleaner ? .casual : .apron
-            workers.append(Worker(role: role, skill: def.skill, person: PersonNode(outfit: outfit, seed: def.id.hashValue & 0xffff), station: station))
+            let outfit: PersonNode.Outfit
+            switch def.role {
+            case .cleaner: outfit = .cleaner
+            case .cashier: outfit = .cashier
+            case .cook: outfit = .apron
+            }
+            let seed = def.id.unicodeScalars.reduce(17) { $0 &* 31 &+ Int($1.value) }
+            workers.append(Worker(role: role, skill: def.skill, person: PersonNode(outfit: outfit, seed: seed), station: station))
         }
         for w in workers {
             world.add(w.person, at: w.pos)
             w.person.face(SIMD3(0, 0, -1))
         }
         if state.flyersDay == state.day, promoter == nil {
-            let p = PersonNode(outfit: .courier, seed: 99)
+            let p = PersonNode(outfit: .promoter, seed: 99)
             world.add(p, at: Spot.promoter)
             p.face(SIMD3(-1, 0, 0))
             promoter = p
@@ -762,6 +786,7 @@ final class Engine: NSObject, ObservableObject {
 
     private func endDay() {
         dayOver = true
+        world.clearPlates()
         for c in customers {
             c.person.node.removeFromParentNode()
         }
@@ -840,6 +865,7 @@ final class Engine: NSObject, ObservableObject {
 
     func restart() {
         GameState.wipe()
+        world.clearPlates()
         for c in customers { c.person.node.removeFromParentNode() }
         customers.removeAll()
         queue.removeAll()
@@ -967,6 +993,84 @@ final class Engine: NSObject, ObservableObject {
             if state.adsOn.contains(id) { state.adsOn.remove(id) } else { state.adsOn.insert(id) }
         }
         changed()
+    }
+
+    // MARK: debug / screenshots
+
+    /// Sets up a known state for scripted screenshots.
+    func debugPreset(upgraded: Bool) {
+        for c in customers { c.person.node.removeFromParentNode() }
+        customers.removeAll()
+        queue.removeAll()
+        orders.removeAll()
+        world.clearPlates()
+        var s = GameState()
+        s.started = true
+        if upgraded {
+            s.day = 12
+            s.money = 412_000
+            s.oven = "wood"
+            s.equipment = ["terminal", "prepFridge", "mixer", "coffee", "generator"]
+            s.building = ["sign", "windows", "renovation", "terrace"]
+            s.tables = 6
+            s.staff = ["andrey", "marco", "katya", "galina"]
+            s.unlockedPizzas = Set(Catalog.pizzas.map(\.id))
+            s.adsOn = ["billboard", "delivery", "instagram"]
+            s.adsBought = ["maps"]
+            s.flyersDay = 12
+            s.recentReviews = [5, 5, 4, 5, 4, 5, 5, 4, 5, 3, 5, 4]
+            s.totalReviews = 214
+        } else {
+            s.recentReviews = [4, 5, 3, 4]
+            s.totalReviews = 4
+        }
+        state = s
+        today = DayReport(day: s.day)
+        closing = false
+        dayOver = false
+        report = nil
+        gameOver = false
+        world.apply(state)
+        promoter?.node.removeFromParentNode()
+        promoter = nil
+        rebuildStaff()
+        resetOvens()
+        seatTaken = Array(repeating: false, count: world.seats.count)
+        waitTaken = Array(repeating: false, count: Spot.waiting.count)
+        speed = 1
+    }
+
+    func debugSetTime(_ m: Double) {
+        minute = m
+    }
+
+    /// Runs the simulation for `seconds` of real time at ×4 without rendering in between.
+    func fastForward(seconds: Double) {
+        let steps = Int(seconds * 30)
+        for _ in 0..<steps {
+            let vdt = 1.0 / 30 * 4
+            step(game: vdt * Econ.gameSecondsPerRealSecond, visual: Float(vdt))
+        }
+        publishHUD()
+    }
+
+    func debugShowReport() {
+        var r = today
+        r.revenue = max(r.revenue, 38_450)
+        r.pizzas = max(r.pizzas, 168)
+        r.guests = max(r.guests, 181)
+        r.ingredients = 14_200
+        r.packaging = 1_340
+        r.acquiring = 310
+        r.wages = state.monthlyWages / 30
+        r.rent = Econ.rentPerMonth / 30
+        r.electricity = 820
+        r.fuel = 650
+        r.utilities = Econ.utilitiesPerDay
+        r.ads = 2_000
+        r.tax = r.revenue * Econ.singleTaxRate + Econ.esvPerDay
+        r.rating = state.rating ?? 0
+        report = r
     }
 
     // MARK: HUD
