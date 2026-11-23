@@ -424,8 +424,8 @@ final class World: NSObject {
         }
         litWindows = SCNMaterial()
         litWindows.lightingModel = .physicallyBased
-        litWindows.diffuse.contents = UIColor(red: 0.08, green: 0.07, blue: 0.06, alpha: 1)
-        litWindows.roughness.contents = 0.2
+        litWindows.diffuse.contents = UIColor(red: 0.04, green: 0.05, blue: 0.07, alpha: 1)
+        litWindows.roughness.contents = 0.12
         litWindows.emission.contents = UIColor(red: 1.0, green: 0.78, blue: 0.5, alpha: 1)
         litWindows.emission.intensity = 0
         neighbourShopLight = SCNMaterial()
@@ -445,10 +445,10 @@ final class World: NSObject {
             let width = Float(cols) * 3
             let wallMat = side < 0
                 ? tinted(UIColor(red: 1.0, green: 0.93, blue: 0.82, alpha: 1), texture: "painted_plaster_wall_diff.jpg")
-                : tinted(UIColor(red: 0.98, green: 0.97, blue: 0.93, alpha: 1), texture: "yellow_plaster_diff.jpg")
+                : tinted(UIColor(red: 0.86, green: 0.88, blue: 0.9, alpha: 1), texture: "beige_wall_002_diff.jpg")
             // Body behind the facade.
-            let fire = surf(side < 0 ? "large_red_bricks" : "yellow_plaster",
-                            tint: side < 0 ? nil : UIColor(red: 0.95, green: 0.9, blue: 0.8, alpha: 1))
+            let fire = surf(side < 0 ? "large_red_bricks" : "beige_wall_002",
+                            tint: side < 0 ? nil : UIColor(red: 0.82, green: 0.82, blue: 0.8, alpha: 1))
             let cx = side * (inner + width / 2)
             let h = Float(floors) * 3
             slab(width, h, 12, fire, cx, h / 2, -6.02, parent: root)
@@ -537,8 +537,8 @@ final class World: NSObject {
         slab(8.4, 0.04, 3.55, surf("terracotta_floor_tiles"), 0, -0.02, -5.425, shadow: false)
 
         // Interior walls: plaster in the hall, white tiles up to 2 m in the kitchen.
-        let plaster = surf("painted_plaster_wall", tint: UIColor(red: 0.98, green: 0.95, blue: 0.9, alpha: 1))
-        let tiles = surf("long_white_tiles")
+        let plaster = surf("painted_plaster_wall", tint: UIColor(red: 0.86, green: 0.82, blue: 0.76, alpha: 1))
+        let tiles = surf("long_white_tiles", tint: UIColor(white: 0.8, alpha: 1))
         let wallTop = World.pbr(UIColor(white: 0.16, alpha: 1), rough: 0.7)
         for sx in [Float(-1), Float(1)] {
             let x = sx * 4.275
@@ -595,14 +595,14 @@ final class World: NSObject {
         frontNode.addChildNode(signPlane)
 
         // Interior lights (warm in the hall, neutral in the kitchen).
-        for (p, t) in [(SIMD3<Float>(-2.1, 2.7, -1.6), CGFloat(3000)), (SIMD3<Float>(1.4, 2.7, -1.8), 3000),
-                       (SIMD3<Float>(0.3, 2.7, -5.4), 4200)] {
+        for (p, t) in [(SIMD3<Float>(-2.1, 2.8, -1.6), CGFloat(3400)), (SIMD3<Float>(1.4, 2.8, -1.8), 3400),
+                       (SIMD3<Float>(0.3, 2.8, -5.4), 4800)] {
             let l = SCNLight()
             l.type = .omni
             l.temperature = t
             l.intensity = 0
-            l.attenuationStartDistance = 0.5
-            l.attenuationEndDistance = 6.5
+            l.attenuationStartDistance = 0
+            l.attenuationEndDistance = 5.5
             l.attenuationFalloffExponent = 2
             let ln = SCNNode()
             ln.light = l
@@ -613,7 +613,6 @@ final class World: NSObject {
 
         // Hall furniture that is always there.
         put("wall_clock", SIMD3(-4.2, 2.25, -2.6), yaw: .pi / 2, anchor: .back, parent: nil)
-        put("WetFloorSign_01", SIMD3(-3.9, 0, -3.35), yaw: 0.4)
     }
 
     // MARK: kitchen
@@ -791,7 +790,7 @@ final class World: NSObject {
             sl.temperature = 3000
             sl.intensity = 0
             sl.attenuationStartDistance = 1
-            sl.attenuationEndDistance = 11
+            sl.attenuationEndDistance = 9
             sl.attenuationFalloffExponent = 1.5
             let ln = SCNNode()
             ln.light = sl
@@ -804,7 +803,7 @@ final class World: NSObject {
         streetGlass?.emission.contents = UIColor(red: 1, green: 0.85, blue: 0.6, alpha: 1)
         streetGlass?.emission.intensity = 0
         interiorGlow = [tubeMat]
-        for (id, name) in [("modern_ceiling_lamp_01", "globe"), ("hanging_industrial_lamp", "glass")] {
+        for (id, name) in [("industrial_wall_lamp", "glass")] {
             if let m = Assets.sharedMaterial(id, named: name) { interiorGlow.append(m) }
         }
 
@@ -929,18 +928,17 @@ final class World: NSObject {
         if reno {
             // Brick accent wall, pendant lamps, pictures, plants, shelving with wine.
             accentWall = slab(0.04, 3.0, 3.65, surf("red_brick_03"), -4.19, 1.5, -1.825, parent: hallRoot)
-            for p in [SIMD3<Float>(-3.15, 3.0, -1.2), SIMD3<Float>(-1.7, 3.0, -1.2), SIMD3<Float>(-0.25, 3.0, -1.2)] {
-                put("modern_ceiling_lamp_01", p - SIMD3(0, 1.173 - 0.25, 0), parent: hallRoot)
+            for z in [Float(-0.55), Float(-1.75), Float(-3.0)] {
+                put("industrial_wall_lamp", SIMD3(-4.17, 2.25, z), yaw: .pi / 2, anchor: .back, parent: hallRoot)
             }
-            put("hanging_industrial_lamp", SIMD3(0.0, 3.0, -4.0), scale: 0.8, anchor: .top, parent: hallRoot)
-            put("hanging_industrial_lamp", SIMD3(1.3, 3.0, -4.0), scale: 0.8, anchor: .top, parent: hallRoot)
+            for z in [Float(-1.2), Float(-2.6)] {
+                put("industrial_wall_lamp", SIMD3(4.2, 2.25, z), yaw: -.pi / 2, anchor: .back, parent: hallRoot)
+            }
             put("hanging_picture_frame_02", SIMD3(-4.17, 1.75, -0.9), yaw: .pi / 2, anchor: .back, parent: hallRoot)
             put("hanging_picture_frame_02", SIMD3(-4.17, 1.75, -2.6), yaw: .pi / 2, anchor: .back, parent: hallRoot)
             put("potted_plant_02", SIMD3(-3.85, 0, -0.35), parent: hallRoot)
             put("potted_plant_02", SIMD3(1.15, 0, -0.35), yaw: 1.2, parent: hallRoot)
             put("wooden_display_shelves_01", SIMD3(4.02, 0, -2.4), yaw: -.pi / 2, parent: hallRoot)
-            put("hanging_industrial_lamp", SIMD3(0.6, 3.0, -5.6), scale: 0.8, anchor: .top, parent: hallRoot)
-            put("hanging_industrial_lamp", SIMD3(-2.4, 3.0, -5.6), scale: 0.8, anchor: .top, parent: hallRoot)
         } else {
             for p in [SIMD3<Float>(-2.2, 2.92, -1.8), SIMD3<Float>(0.9, 2.92, -1.8), SIMD3<Float>(0.6, 2.92, -5.6), SIMD3<Float>(-2.6, 2.92, -5.6)] {
                 box(1.25, 0.05, 0.12, white, p.x, p.y, p.z, parent: hallRoot)
@@ -1208,10 +1206,10 @@ final class World: NSObject {
             for x in [Float(-3.6), Float(-0.7), Float(2.2)] {
                 put("industrial_wall_lamp", SIMD3(x, 3.5, 0.14), anchor: .back, parent: signLampRoot)
             }
-            if let g = Assets.sharedMaterial("industrial_wall_lamp", named: "glass") {
-                g.emission.contents = UIColor(red: 1, green: 0.85, blue: 0.6, alpha: 1)
-                signLamps.append(g)
-            }
+
+        }
+        if s.staff.contains("galina") {
+            put("WetFloorSign_01", SIMD3(-3.9, 0, -3.35), yaw: 0.4, parent: u)
         }
         if s.adsOn.contains("billboard") {
             let bb = SCNNode()
@@ -1284,17 +1282,17 @@ final class World: NSObject {
             updateSky(minute: a.minute)
         }
 
-        let interior: CGFloat = a.interiorPowered ? CGFloat(620 - 220 * dayAmount) : 0
+        let interior: CGFloat = a.interiorPowered ? CGFloat(420 - 160 * dayAmount) : 0
         for l in interiorLights { l.light?.intensity = interior }
         for g in interiorGlow {
             g.emission.contents = a.interiorPowered ? UIColor(red: 1, green: 0.9, blue: 0.75, alpha: 1) : UIColor.black
             g.emission.intensity = a.interiorPowered ? 1.2 : 0
         }
         let streetOn = a.streetPowered && dayAmount < 0.4
-        for l in streetLights { l.light?.intensity = streetOn ? 700 : 0 }
+        for l in streetLights { l.light?.intensity = streetOn ? 380 : 0 }
         streetBulb?.emission.contents = streetOn ? UIColor(red: 1, green: 0.85, blue: 0.6, alpha: 1) : UIColor.black
         streetGlass?.emission.intensity = streetOn ? 1.5 : 0
-        litWindows?.emission.intensity = CGFloat(a.streetPowered ? max(0, 1 - dayAmount * 1.6) * 0.7 : 0.04)
+        litWindows?.emission.intensity = CGFloat(a.streetPowered ? max(0, 1 - dayAmount * 1.6) * 0.45 : 0.03)
         neighbourShopLight?.emission.intensity = a.streetPowered ? 0.2 + (1 - CGFloat(dayAmount)) * 0.35 : 0
         for g in signLamps { g.emission.intensity = a.interiorPowered && dayAmount < 0.5 ? 1.6 : 0 }
         signMaterial.emission.intensity = (signMaterial.emission.contents as? UIImage) != nil && a.interiorPowered ? 1.0 + CGFloat(1 - dayAmount) * 0.8 : 0
