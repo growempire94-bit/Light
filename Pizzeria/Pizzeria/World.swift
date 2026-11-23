@@ -595,8 +595,8 @@ final class World: NSObject {
         frontNode.addChildNode(signPlane)
 
         // Interior lights (warm in the hall, neutral in the kitchen).
-        for (p, t) in [(SIMD3<Float>(-2.1, 2.8, -1.6), CGFloat(3400)), (SIMD3<Float>(1.4, 2.8, -1.8), 3400),
-                       (SIMD3<Float>(0.3, 2.8, -5.4), 4800)] {
+        for (p, t) in [(SIMD3<Float>(-2.1, 3.3, -1.6), CGFloat(3700)), (SIMD3<Float>(1.4, 3.3, -1.8), 3700),
+                       (SIMD3<Float>(0.3, 3.3, -5.4), 5000)] {
             let l = SCNLight()
             l.type = .omni
             l.temperature = t
@@ -787,7 +787,7 @@ final class World: NSObject {
             _ = l
             let sl = SCNLight()
             sl.type = .omni
-            sl.temperature = 3000
+            sl.temperature = 4100
             sl.intensity = 0
             sl.attenuationStartDistance = 1
             sl.attenuationEndDistance = 9
@@ -1282,7 +1282,7 @@ final class World: NSObject {
             updateSky(minute: a.minute)
         }
 
-        let interior: CGFloat = a.interiorPowered ? CGFloat(420 - 160 * dayAmount) : 0
+        let interior: CGFloat = a.interiorPowered ? CGFloat(300 - 120 * dayAmount) : 0
         for l in interiorLights { l.light?.intensity = interior }
         for g in interiorGlow {
             g.emission.contents = a.interiorPowered ? UIColor(red: 1, green: 0.9, blue: 0.75, alpha: 1) : UIColor.black

@@ -473,7 +473,8 @@ final class PersonNode {
 
         mutating func v(_ pos: SIMD3<Float>, _ col: SIMD3<Float>, _ b0: Int, _ b1: Int, _ w1: Float) -> UInt16 {
             p.append(pos)
-            c.append(SIMD4(col, 1))
+            // Palette colours are sRGB; vertex colours are used as linear values.
+            c.append(SIMD4(pow(col.x, 2.2), pow(col.y, 2.2), pow(col.z, 2.2), 1))
             bi.append(SIMD2(UInt16(b0), UInt16(b1)))
             bw.append(SIMD2(1 - w1, w1))
             return UInt16(p.count - 1)
