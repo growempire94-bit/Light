@@ -18,11 +18,12 @@ struct PanelView: View {
                 case .finance: FinancePanel()
                 }
             }
+            .scrollContentBackground(.hidden)
             .navigationTitle(panel.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Text(Fmt.money(engine.state.money)).monospacedDigit().font(.subheadline.weight(.semibold))
+                    Text(Fmt.money(engine.state.money)).monospacedDigit().font(.subheadline.weight(.semibold)).fixedSize()
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {

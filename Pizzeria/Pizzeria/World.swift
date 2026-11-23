@@ -36,6 +36,8 @@ struct Seat {
 
 final class World: NSObject {
     static let cardboard: UIImage = Tex.cardboard()
+    static let exteriorMask = 1
+    static let interiorMask = 2
 
     let scene = SCNScene()
     let view: SCNView
@@ -80,6 +82,8 @@ final class World: NSObject {
     private var readyBoxes: [SCNNode] = []
     private var plates: [Int: SCNNode] = [:]
     private let doorPanel = SCNNode()
+    private let frontNode = SCNNode()
+    private let signLampRoot = SCNNode()
     private var doorOpen: Float = 0
     private var people: [WeakPerson] = []
     private let overlay = SKScene(size: CGSize(width: 800, height: 400))
@@ -99,9 +103,9 @@ final class World: NSObject {
 
     // Camera rig.
     private var camYaw: Float = 0
-    private var camPitch: Float = 0.9
-    private var camDist: Float = 15.5
-    private var camTarget = SIMD3<Float>(0.3, 0.2, -2.3)
+    private var camPitch: Float = 0.92
+    private var camDist: Float = 14
+    private var camTarget = SIMD3<Float>(0.4, 0.2, -2.7)
 
     // MARK: materials
 
@@ -127,11 +131,9 @@ final class World: NSObject {
     private lazy var rubber = World.pbr(UIColor(white: 0.03, alpha: 1), rough: 0.9)
     private lazy var glass: SCNMaterial = {
         let m = SCNMaterial()
-        m.lightingModel = .physicallyBased
-        m.diffuse.contents = UIColor(red: 0.8, green: 0.88, blue: 0.9, alpha: 1)
-        m.roughness.contents = 0.03
-        m.metalness.contents = 0.0
-        m.transparency = 0.08
+        m.lightingModel = .constant
+        m.diffuse.contents = UIColor(red: 0.85, green: 0.93, blue: 0.97, alpha: 1)
+        m.transparency = 0.07
         m.blendMode = .alpha
         m.isDoubleSided = true
         m.writesToDepthBuffer = false
@@ -182,6 +184,23 @@ final class World: NSObject {
         overlay.scaleMode = .resizeFill
         overlay.backgroundColor = .clear
         view.overlaySKScene = overlay
+        classify(scene.rootNode)
+    }
+
+    /// There is no roof in the cut-away view, so the sun must not light the interior:
+    /// geometry inside the shop gets the interior category, which the sun ignores.
+    private func classify(_ root: SCNNode) {
+        root.enumerateHierarchy { n, _ in
+            guard n.geometry != nil else { return }
+            let (lo, hi) = n.boundingBox
+            let mid = n.simdConvertPosition(SIMD3((lo.x + hi.x) / 2, (lo.y + hi.y) / 2, (lo.z + hi.z) / 2), to: nil)
+            let inside = mid.z < -0.08 && mid.z > -7.3 && abs(mid.x) < 4.3
+            n.categoryBitMask = inside ? World.interiorMask : World.exteriorMask
+        }
+    }
+
+    private static func setMask(_ node: SCNNode, _ mask: Int) {
+        node.enumerateHierarchy { n, _ in n.categoryBitMask = mask }
     }
 
     /// Short floating label above a point of the world (sales, reviews, complaints).
@@ -217,12 +236,12 @@ final class World: NSObject {
         cam.zFar = 220
         cam.wantsHDR = true
         cam.wantsExposureAdaptation = false
-        cam.exposureOffset = -0.1
+        cam.exposureOffset = -0.35
         cam.minimumExposure = -2
         cam.maximumExposure = 2
-        cam.bloomIntensity = 0.55
-        cam.bloomThreshold = 1.0
-        cam.bloomBlurRadius = 12
+        cam.bloomIntensity = 0.25
+        cam.bloomThreshold = 1.3
+        cam.bloomBlurRadius = 10
         cam.screenSpaceAmbientOcclusionIntensity = 1.2
         cam.screenSpaceAmbientOcclusionRadius = 0.3
         cam.screenSpaceAmbientOcclusionNormalThreshold = 0.3
@@ -240,9 +259,9 @@ final class World: NSObject {
 
     func resetCamera() {
         camYaw = 0
-        camPitch = 0.9
-        camDist = 15.5
-        camTarget = SIMD3(0.3, 0.2, -2.3)
+        camPitch = 0.92
+        camDist = 14
+        camTarget = SIMD3(0.4, 0.2, -2.7)
         SCNTransaction.begin()
         SCNTransaction.animationDuration = 0.45
         applyCamera()
@@ -262,6 +281,9 @@ final class World: NSObject {
         let dir = SIMD3<Float>(sin(camYaw) * cos(camPitch), sin(camPitch), cos(camYaw) * cos(camPitch))
         cameraNode.simdPosition = camTarget + dir * camDist
         cameraNode.simdLook(at: camTarget, up: SIMD3(0, 1, 0), localFront: SIMD3(0, 0, -1))
+        // Cut-away: the fascia hides the hall when looking down from above, so fade it out.
+        let fade = max(0, min(1, (camPitch - 0.55) / 0.25))
+        frontNode.opacity = CGFloat(1 - 0.78 * fade)
     }
 
     private func setupLights() {
@@ -277,6 +299,7 @@ final class World: NSObject {
         s.shadowCascadeCount = 2
         s.shadowColor = UIColor(white: 0, alpha: 0.6)
         s.intensity = 1400
+        s.categoryBitMask = World.exteriorMask
         sun.light = s
         scene.rootNode.addChildNode(sun)
 
@@ -393,15 +416,16 @@ final class World: NSObject {
 
     private func buildNeighbours() {
         let plaster = Assets.sharedMaterial("facade", named: "plaster")
-        func tinted(_ c: UIColor) -> SCNMaterial? {
+        func tinted(_ c: UIColor, texture: String) -> SCNMaterial? {
             guard let p = plaster?.copy() as? SCNMaterial else { return nil }
+            if let img = Assets.image(texture) { p.diffuse.contents = img }
             p.multiply.contents = c
             return p
         }
         litWindows = SCNMaterial()
         litWindows.lightingModel = .physicallyBased
         litWindows.diffuse.contents = UIColor(red: 0.08, green: 0.07, blue: 0.06, alpha: 1)
-        litWindows.roughness.contents = 0.08
+        litWindows.roughness.contents = 0.2
         litWindows.emission.contents = UIColor(red: 1.0, green: 0.78, blue: 0.5, alpha: 1)
         litWindows.emission.intensity = 0
         neighbourShopLight = SCNMaterial()
@@ -419,8 +443,9 @@ final class World: NSObject {
             scene.rootNode.addChildNode(root)
             let inner: Float = 4.35
             let width = Float(cols) * 3
-            let tint = side < 0 ? UIColor(red: 1.0, green: 0.92, blue: 0.80, alpha: 1) : UIColor(red: 0.86, green: 0.9, blue: 0.93, alpha: 1)
-            let wallMat = tinted(tint)
+            let wallMat = side < 0
+                ? tinted(UIColor(red: 1.0, green: 0.93, blue: 0.82, alpha: 1), texture: "painted_plaster_wall_diff.jpg")
+                : tinted(UIColor(red: 0.98, green: 0.97, blue: 0.93, alpha: 1), texture: "yellow_plaster_diff.jpg")
             // Body behind the facade.
             let fire = surf(side < 0 ? "large_red_bricks" : "yellow_plaster",
                             tint: side < 0 ? nil : UIColor(red: 0.95, green: 0.9, blue: 0.8, alpha: 1))
@@ -543,7 +568,7 @@ final class World: NSObject {
             box(0.07, 2.4, 0.1, aluminium, mx, 1.65, 0)
         }
         box(8.7, 0.07, 0.12, aluminium, 0, 0.46, 0)
-        box(8.7, 0.08, 0.12, aluminium, 0, 2.78, 0)
+        box(8.7, 0.08, 0.12, aluminium, 0, 2.78, 0, parent: frontNode)
         // Door frame and sliding glass leaf.
         box(1.2, 0.06, 0.12, aluminium, 2.8, 2.3, 0)
         let leafGlass = SCNNode(geometry: SCNBox(width: 1.0, height: 2.2, length: 0.02, chamferRadius: 0))
@@ -558,14 +583,16 @@ final class World: NSObject {
         scene.rootNode.addChildNode(doorPanel)
 
         let fascia = World.pbr(UIColor(red: 0.13, green: 0.14, blue: 0.15, alpha: 1), rough: 0.45, metal: 0.4)
-        box(8.7, 0.6, 0.24, fascia, 0, 3.12, 0.02)
+        scene.rootNode.addChildNode(frontNode)
+        frontNode.addChildNode(signLampRoot)
+        box(8.7, 0.6, 0.24, fascia, 0, 3.12, 0.02, parent: frontNode)
         let signPlane = SCNNode(geometry: SCNPlane(width: 4.2, height: 0.48))
         signMaterial.lightingModel = .physicallyBased
         signMaterial.roughness.contents = 0.4
         signPlane.geometry?.firstMaterial = signMaterial
         signPlane.position = SCNVector3(-0.7, 3.12, 0.145)
         signPlane.name = "tap:ads"
-        scene.rootNode.addChildNode(signPlane)
+        frontNode.addChildNode(signPlane)
 
         // Interior lights (warm in the hall, neutral in the kitchen).
         for (p, t) in [(SIMD3<Float>(-2.1, 2.7, -1.6), CGFloat(3000)), (SIMD3<Float>(1.4, 2.7, -1.8), 3000),
@@ -574,9 +601,9 @@ final class World: NSObject {
             l.type = .omni
             l.temperature = t
             l.intensity = 0
-            l.attenuationStartDistance = 1.0
-            l.attenuationEndDistance = 7.5
-            l.attenuationFalloffExponent = 1.6
+            l.attenuationStartDistance = 0.5
+            l.attenuationEndDistance = 6.5
+            l.attenuationFalloffExponent = 2
             let ln = SCNNode()
             ln.light = l
             ln.simdPosition = p
@@ -784,7 +811,7 @@ final class World: NSObject {
         put("metal_trash_can", SIMD3(4.75, 0, 0.45))
         put("trashbag", SIMD3(-16.8, 0, 0.5), yaw: 0.6)
         put("utility_box_01", SIMD3(-5.0, 0, 0.35))
-        put("security_camera_01", SIMD3(4.15, 2.55, 0.25), yaw: 0.5)
+        put("security_camera_01", SIMD3(4.15, 2.55, 0.25), yaw: 0.5, parent: frontNode)
         put("covered_car", SIMD3(13.5, -0.12, 10.1), yaw: .pi / 2 + 0.03)
         put("metal_trash_can", SIMD3(-2.0, 0, -9.0), yaw: 0.3)
         put("metal_trash_can", SIMD3(-1.1, 0, -9.1), yaw: -0.2)
@@ -857,6 +884,7 @@ final class World: NSObject {
         plate.addChildNode(glassCup)
         scene.rootNode.addChildNode(plate)
         plates[seat] = plate
+        classify(plate)
     }
 
     // MARK: upgrades
@@ -876,6 +904,7 @@ final class World: NSObject {
             buildPrepTable(fridgeTop: s.equipment.contains("prepFridge"))
             buildTables(s)
             buildUpgrades(s)
+            for r in [hallRoot, prepTableRoot, tablesRoot, upgradesRoot, signLampRoot] { classify(r) }
         }
         let lit = s.building.contains("sign")
         let signImage = Tex.sign(lit ? "ПИЦЦЕРИЯ" : "ПИЦЦА", lit: lit)
@@ -1020,6 +1049,7 @@ final class World: NSObject {
             ovenPizzas.append(pz)
         }
         r.enumerateHierarchy { n, _ in n.castsShadow = true }
+        if r.parent != nil { classify(r) }
     }
 
     static func makeFire() -> SCNParticleSystem {
@@ -1111,6 +1141,7 @@ final class World: NSObject {
     private func buildUpgrades(_ s: GameState) {
         upgradesRoot.childNodes.forEach { $0.removeFromParentNode() }
         signLamps.removeAll()
+        signLampRoot.childNodes.forEach { $0.removeFromParentNode() }
         let has = { (id: String) in s.equipment.contains(id) || s.building.contains(id) }
         let u = upgradesRoot
 
@@ -1175,7 +1206,7 @@ final class World: NSObject {
         }
         if has("sign") {
             for x in [Float(-3.6), Float(-0.7), Float(2.2)] {
-                put("industrial_wall_lamp", SIMD3(x, 3.5, 0.14), anchor: .back, parent: u)
+                put("industrial_wall_lamp", SIMD3(x, 3.5, 0.14), anchor: .back, parent: signLampRoot)
             }
             if let g = Assets.sharedMaterial("industrial_wall_lamp", named: "glass") {
                 g.emission.contents = UIColor(red: 1, green: 0.85, blue: 0.6, alpha: 1)
@@ -1237,7 +1268,7 @@ final class World: NSObject {
         let az = (dayT - 0.5) * 1.9 + 0.5
         sun.eulerAngles = SCNVector3(-elev, az, 0)
         let dayAmount = max(0, min(1, (sunHeight + 0.05) / 0.35))
-        sun.light?.intensity = CGFloat(1500 * dayAmount)
+        sun.light?.intensity = CGFloat(1350 * dayAmount)
         sun.light?.temperature = CGFloat(3500 + 2700 * max(0, min(1, sunHeight * 2.2)))
         ambient.light?.intensity = CGFloat(15 + 50 * dayAmount)
         let night = dayAmount < 0.25
@@ -1245,7 +1276,7 @@ final class World: NSObject {
             envIsNight = night
             scene.lightingEnvironment.contents = Assets.url(night ? "env_night.exr" : "env_day.exr")
         }
-        scene.lightingEnvironment.intensity = CGFloat(night ? 0.35 : 0.25 + 0.85 * dayAmount)
+        scene.lightingEnvironment.intensity = CGFloat(night ? 0.06 : 0.12 + 0.8 * dayAmount)
 
         let skyKey = Int(a.minute / 10)
         if skyKey != lastSkyKey {
@@ -1253,18 +1284,18 @@ final class World: NSObject {
             updateSky(minute: a.minute)
         }
 
-        let interior: CGFloat = a.interiorPowered ? CGFloat(900 - 450 * dayAmount) : 0
+        let interior: CGFloat = a.interiorPowered ? CGFloat(620 - 220 * dayAmount) : 0
         for l in interiorLights { l.light?.intensity = interior }
         for g in interiorGlow {
             g.emission.contents = a.interiorPowered ? UIColor(red: 1, green: 0.9, blue: 0.75, alpha: 1) : UIColor.black
             g.emission.intensity = a.interiorPowered ? 1.2 : 0
         }
         let streetOn = a.streetPowered && dayAmount < 0.4
-        for l in streetLights { l.light?.intensity = streetOn ? 1800 : 0 }
+        for l in streetLights { l.light?.intensity = streetOn ? 700 : 0 }
         streetBulb?.emission.contents = streetOn ? UIColor(red: 1, green: 0.85, blue: 0.6, alpha: 1) : UIColor.black
         streetGlass?.emission.intensity = streetOn ? 1.5 : 0
-        litWindows?.emission.intensity = CGFloat(a.streetPowered ? max(0, 1 - dayAmount * 1.6) * 1.4 : 0.08)
-        neighbourShopLight?.emission.intensity = a.streetPowered ? 0.35 + (1 - CGFloat(dayAmount)) * 0.6 : 0
+        litWindows?.emission.intensity = CGFloat(a.streetPowered ? max(0, 1 - dayAmount * 1.6) * 0.7 : 0.04)
+        neighbourShopLight?.emission.intensity = a.streetPowered ? 0.2 + (1 - CGFloat(dayAmount)) * 0.35 : 0
         for g in signLamps { g.emission.intensity = a.interiorPowered && dayAmount < 0.5 ? 1.6 : 0 }
         signMaterial.emission.intensity = (signMaterial.emission.contents as? UIImage) != nil && a.interiorPowered ? 1.0 + CGFloat(1 - dayAmount) * 0.8 : 0
 
@@ -1296,6 +1327,12 @@ final class World: NSObject {
 
     private func updateDoor(dt: Float) {
         people.removeAll { $0.node?.parent == nil }
+        for w in people {
+            guard let n = w.node else { continue }
+            let p = n.simdPosition
+            let mask = p.z < -0.15 && p.z > -7.3 && abs(p.x) < 4.3 ? World.interiorMask : World.exteriorMask
+            if n.categoryBitMask != mask { World.setMask(n, mask) }
+        }
         let near = people.contains { w in
             guard let n = w.node else { return false }
             let p = n.simdPosition

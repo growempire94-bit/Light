@@ -400,6 +400,26 @@ final class PersonNode {
 
         func accessories(rng: inout SeededRandom) -> [Accessory] {
             var out: [Accessory] = []
+            // Face: eyes, brows and mouth (relative to the head bone at y 1.56).
+            let eye = Look.mat(SIMD3(0.06, 0.05, 0.05), rough: 0.25)
+            let brow = Look.mat(hair * 0.7, rough: 0.8)
+            let lips = Look.mat(SIMD3(skin.x * 0.75, skin.y * 0.5, skin.z * 0.48), rough: 0.6)
+            for sx in [Float(-1), Float(1)] {
+                let e = SCNNode(geometry: SCNSphere(radius: 0.0105))
+                e.geometry?.firstMaterial = eye
+                e.position = SCNVector3(sx * 0.03, 0.116, 0.095)
+                e.scale = SCNVector3(1, 0.8, 0.6)
+                out.append(Accessory(bone: B.head, node: e))
+                let b = SCNNode(geometry: SCNBox(width: 0.03, height: 0.0065, length: 0.008, chamferRadius: 0.002))
+                b.geometry?.firstMaterial = brow
+                b.position = SCNVector3(sx * 0.031, 0.136, 0.097)
+                b.eulerAngles.z = sx * -0.12
+                out.append(Accessory(bone: B.head, node: b))
+            }
+            let mouth = SCNNode(geometry: SCNBox(width: 0.03, height: 0.006, length: 0.006, chamferRadius: 0.002))
+            mouth.geometry?.firstMaterial = lips
+            mouth.position = SCNVector3(0, 0.066, 0.093)
+            out.append(Accessory(bone: B.head, node: mouth))
             if let c = cap {
                 let capNode = SCNNode(geometry: SCNSphere(radius: 0.1))
                 capNode.geometry?.firstMaterial = Look.mat(c)

@@ -208,9 +208,9 @@ enum Assets {
         if lower.contains("glass") || m.alpha == "BLEND" {
             if model == "facade" {
                 // Windows of the neighbouring buildings: dark, reflective, opaque.
-                mat.diffuse.contents = UIColor(red: 0.05, green: 0.07, blue: 0.08, alpha: 1)
+                mat.diffuse.contents = UIColor(red: 0.06, green: 0.08, blue: 0.1, alpha: 1)
                 mat.multiply.contents = nil
-                mat.roughness.contents = 0.06
+                mat.roughness.contents = 0.2
                 mat.metalness.contents = 0.0
                 mat.normal.contents = nil
             } else {
