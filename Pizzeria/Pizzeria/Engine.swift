@@ -2,6 +2,7 @@ import Foundation
 import QuartzCore
 import SceneKit
 import simd
+import UIKit
 
 final class Order {
     enum Stage { case queued, prepping, waitingOven, baking, ready, done }
@@ -243,6 +244,10 @@ final class Engine: NSObject, ObservableObject {
         let realDt = lastTimestamp == 0 ? 0 : min(0.1, now - lastTimestamp)
         lastTimestamp = now
         let running = speed > 0 && report == nil && !gameOver && state.started
+        if world.showcase != !state.started {
+            world.showcase = !state.started
+            if state.started { world.resetCamera() }
+        }
         let visualDt = running ? realDt * Double(speed) : 0
         if running { step(game: visualDt * Econ.gameSecondsPerRealSecond, visual: Float(visualDt)) }
         world.update(dt: Float(realDt), visualSpeed: Float(running ? speed : 0), World.Ambience(
@@ -365,6 +370,7 @@ final class Engine: NSObject, ObservableObject {
         today.packaging += Econ.boxCost
         today.pizzas += 1
         today.deliveryOrders += 1
+        world.floatText("Доставка +" + Fmt.money(payout), at: SIMD3(0.6, 2.2, -4.0), color: UIColor(red: 0.5, green: 0.85, blue: 1, alpha: 1), size: 15)
 
         let fromLeft = Bool.random()
         let p = PersonNode(outfit: .courier)
@@ -525,6 +531,7 @@ final class Engine: NSObject, ObservableObject {
     private func leaveQueue(_ c: Customer) {
         queue.removeAll { $0 === c }
         today.lostGuests += 1
+        world.floatText("Долго!", at: c.pos + SIMD3(0, 2.0, 0), color: UIColor(red: 1, green: 0.45, blue: 0.35, alpha: 1), size: 15)
         if Double.random(in: 0...1) < 0.25 { state.addReview(Int.random(in: 1...2)) }
         c.phase = .leaving
         c.path = exitPath(from: c.pos)
@@ -674,6 +681,7 @@ final class Engine: NSObject, ObservableObject {
             if Double.random(in: 0...1) < 0.2 { state.addReview(2) }
             c.phase = .leaving
             c.path = exitPath(from: c.pos)
+            world.floatText("Нет терминала", at: c.pos + SIMD3(0, 2.0, 0), color: UIColor(red: 1, green: 0.45, blue: 0.35, alpha: 1), size: 14)
             if !hasShownCardHint {
                 hasShownCardHint = true
                 showToast("Гость хотел оплатить картой, а терминала нет. Ушёл")
@@ -710,6 +718,8 @@ final class Engine: NSObject, ObservableObject {
         today.revenue += paid
         today.ingredients += ingredients
         today.pizzas += 1
+        world.floatText("+" + Fmt.money(paid), at: Spot.cashier + SIMD3(0, 2.1, 0.4), color: UIColor(red: 0.45, green: 1, blue: 0.5, alpha: 1))
+        Sound.shared.play("cash", volume: 0.5)
 
         let o = Order(pizza: c.pizza, isDelivery: false)
         o.customer = c
@@ -779,7 +789,12 @@ final class Engine: NSObject, ObservableObject {
         let sat = 0.42 * qN + 0.30 * waitS + 0.18 * priceS + 0.10 * amb
         let stars = max(1, min(5, Int((1 + 4 * sat + Double.random(in: -0.6...0.6)).rounded())))
         let chance = state.day <= state.bloggerUntilDay ? 0.55 : 0.33
-        if Double.random(in: 0...1) < chance { state.addReview(stars) }
+        if Double.random(in: 0...1) < chance {
+            state.addReview(stars)
+            let text = String(repeating: "★", count: stars) + String(repeating: "☆", count: 5 - stars)
+            let color = stars >= 4 ? UIColor(red: 1, green: 0.85, blue: 0.2, alpha: 1) : (stars == 3 ? UIColor(white: 0.9, alpha: 1) : UIColor(red: 1, green: 0.4, blue: 0.3, alpha: 1))
+            world.floatText(text, at: c.pos + SIMD3(0, 2.0, 0), color: color, size: 16)
+        }
     }
 
     // MARK: day cycle
@@ -891,6 +906,7 @@ final class Engine: NSObject, ObservableObject {
             showToast("Не хватает денег: нужно \(Fmt.money(amount))")
             return false
         }
+        Sound.shared.play("coins", volume: 0.7)
         state.money -= amount
         if investment { today.investments += amount }
         return true

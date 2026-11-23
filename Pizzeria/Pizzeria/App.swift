@@ -13,7 +13,11 @@ struct PizzeriaApp: App {
                 .preferredColorScheme(.dark)
                 .statusBarHidden(true)
                 .persistentSystemOverlays(.hidden)
-                .onAppear { ShotDirector.startIfRequested(engine) }
+                .onAppear {
+                    Sound.shared.muted = UserDefaults.standard.bool(forKey: "muted")
+                    Sound.shared.start()
+                    ShotDirector.startIfRequested(engine)
+                }
         }
         .onChange(of: scenePhase) { phase in
             if phase != .active { engine.save() }
@@ -160,6 +164,7 @@ struct HUD: View {
                 Spacer(minLength: 8)
                 HStack(spacing: 8) {
                     SpeedControl()
+                    SoundToggle()
                     Button {
                         engine.world.resetCamera()
                     } label: {
@@ -261,6 +266,23 @@ struct PanelBar: View {
                 }
             }
         }
+    }
+}
+
+struct SoundToggle: View {
+    @State private var muted = UserDefaults.standard.bool(forKey: "muted")
+    var body: some View {
+        Button {
+            muted.toggle()
+            UserDefaults.standard.set(muted, forKey: "muted")
+            Sound.shared.muted = muted
+        } label: {
+            Image(systemName: muted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                .font(.system(size: 15, weight: .semibold))
+                .frame(width: 40, height: 40)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        }
+        .foregroundStyle(.primary)
     }
 }
 

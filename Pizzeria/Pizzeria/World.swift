@@ -1,4 +1,5 @@
 import SceneKit
+import SpriteKit
 import UIKit
 import simd
 
@@ -81,6 +82,7 @@ final class World: NSObject {
     private let doorPanel = SCNNode()
     private var doorOpen: Float = 0
     private var people: [WeakPerson] = []
+    private let overlay = SKScene(size: CGSize(width: 800, height: 400))
 
     private struct WeakPerson { weak var node: SCNNode? }
 
@@ -90,6 +92,10 @@ final class World: NSObject {
         var dir: Float = 1
         var speed: Float = 9
     }
+
+    /// Slow cinematic orbit while the intro card is shown.
+    var showcase = false
+    private var showcaseT: Float = 0
 
     // Camera rig.
     private var camYaw: Float = 0
@@ -173,6 +179,35 @@ final class World: NSObject {
         for i in 0..<4 { cars.append(Car(node: makeCar(seed: i))) }
         cars.forEach { $0.node.isHidden = true; scene.rootNode.addChildNode($0.node) }
         installGestures()
+        overlay.scaleMode = .resizeFill
+        overlay.backgroundColor = .clear
+        view.overlaySKScene = overlay
+    }
+
+    /// Short floating label above a point of the world (sales, reviews, complaints).
+    func floatText(_ text: String, at p: SIMD3<Float>, color: UIColor, size: CGFloat = 17) {
+        let sp = view.projectPoint(SCNVector3(p.x, p.y, p.z))
+        guard sp.z > 0, sp.z < 1, view.bounds.width > 0 else { return }
+        let label = SKLabelNode(text: text)
+        label.fontName = "AvenirNext-Heavy"
+        label.fontSize = size
+        label.fontColor = color
+        label.verticalAlignmentMode = .center
+        let shadow = SKLabelNode(text: text)
+        shadow.fontName = label.fontName
+        shadow.fontSize = size
+        shadow.fontColor = UIColor(white: 0, alpha: 0.55)
+        shadow.verticalAlignmentMode = .center
+        shadow.position = CGPoint(x: 1.2, y: -1.2)
+        shadow.zPosition = -1
+        label.addChild(shadow)
+        label.position = CGPoint(x: CGFloat(sp.x), y: view.bounds.height - CGFloat(sp.y))
+        label.setScale(0.6)
+        overlay.addChild(label)
+        label.run(.sequence([
+            .group([.scale(to: 1, duration: 0.18), .moveBy(x: 0, y: 34, duration: 1.4)]),
+        ]))
+        label.run(.sequence([.wait(forDuration: 0.9), .fadeOut(withDuration: 0.5), .removeFromParent()]))
     }
 
     private func setupCamera() {
@@ -1246,7 +1281,17 @@ final class World: NSObject {
         for (i, n) in readyBoxes.enumerated() { n.isHidden = i >= a.readyBoxes }
 
         updateDoor(dt: dt)
-        updateCars(dt: dt * visualSpeed)
+        updateCars(dt: dt * max(visualSpeed, showcase ? 1 : 0))
+        if showcase {
+            showcaseT += dt
+            camYaw = 0.45 * sin(showcaseT * 0.12)
+            camPitch = 0.62 + 0.1 * sin(showcaseT * 0.09)
+            camDist = 13
+            camTarget = SIMD3(1.5, 0.8, -2.0)
+            applyCamera()
+        }
+        Sound.shared.street = visualSpeed > 0 ? 0.35 + 0.4 * dayAmount : 0.15
+        Sound.shared.fire = woodOven && a.ovenWorking ? max(0.2, 1 - (camDist - 6) / 20) : 0
     }
 
     private func updateDoor(dt: Float) {
@@ -1256,6 +1301,7 @@ final class World: NSObject {
             let p = n.simdPosition
             return abs(p.x - Spot.doorX) < 0.9 && abs(p.z) < 1.4
         }
+        if near && doorOpen < 0.02 { Sound.shared.play("door", volume: 0.35) }
         doorOpen += ((near ? 1 : 0) - doorOpen) * min(1, dt * 6)
         doorPanel.position.x = Spot.doorX + doorOpen * 0.95
     }
