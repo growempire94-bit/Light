@@ -1,0 +1,480 @@
+getpwuid_r did not find a match for uid 501
+Timestamp               Ty Process[PID:TID]
+2026-11-23 19:04:19.587 Df Pizzeria[16998:c4b6] (libMobileGestalt.dylib) No persisted cache on this platform.
+2026-11-23 19:04:19.588 Df Pizzeria[16998:c4e2] [com.apple.xpc:connection] [0x103204880] activating connection: mach=true listener=false peer=false name=com.apple.cfprefsd.daemon
+2026-11-23 19:04:19.596 Df Pizzeria[16998:c4b6] [com.apple.BoardServices:XPCErrors] [C:1] Alloc com.apple.frontboard.systemappservices
+2026-11-23 19:04:19.596 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x1031065d0] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-11-23 19:04:19.596 Df Pizzeria[16998:c4e2] [com.apple.UIKit:BackgroundTask] Creating new assertion because there is no existing background assertion.
+2026-11-23 19:04:19.610 Df Pizzeria[16998:c4e2] [com.apple.UIKit:BackgroundTask] Creating new background assertion
+2026-11-23 19:04:19.610 Df Pizzeria[16998:c4e2] [com.apple.UIKit:BackgroundTask] Created new background assertion <BKSProcessAssertion: 0x600002101d10>
+2026-11-23 19:04:19.611 Df Pizzeria[16998:c4e2] [com.apple.runningboard:connection] Initializing connection
+2026-11-23 19:04:19.611 Df Pizzeria[16998:c4e2] [com.apple.runningboard:process] Removing all cached process handles
+2026-11-23 19:04:19.611 Df Pizzeria[16998:c4e2] [com.apple.runningboard:connection] Creating connection to com.apple.runningboard
+2026-11-23 19:04:19.611 Df Pizzeria[16998:c4e2] [com.apple.xpc:connection] [0x102f06830] activating connection: mach=true listener=false peer=false name=com.apple.runningboard
+2026-11-23 19:04:19.611 Df Pizzeria[16998:c4e4] [com.apple.runningboard:connection] Sending handshake request attempt #1 to server
+2026-11-23 19:04:19.613 Df Pizzeria[16998:c4e4] [com.apple.runningboard:connection] Handshake succeeded
+2026-11-23 19:04:19.613 Df Pizzeria[16998:c4e4] [com.apple.runningboard:connection] Identity resolved as app<com.svetlo.pizzeria((null))>
+2026-11-23 19:04:19.613 Df Pizzeria[16998:c4e2] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x600002101d10>
+2026-11-23 19:04:19.614 Df Pizzeria[16998:c4e2] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x600001701240>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 621 (elapsed = 0).
+2026-11-23 19:04:19.614 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UIApplicationSceneKeyboardSettings on FBSSceneSettings
+2026-11-23 19:04:19.617 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneOcclusionSettings> on FBSSceneSettings
+2026-11-23 19:04:19.618 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneInterfaceProtectionSettings> on FBSSceneSettings
+2026-11-23 19:04:19.618 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason added: 10; deactivation reasons: 0 -> 1024; animating application lifecycle event: 0
+2026-11-23 19:04:19.618 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneLayoutPreferencesHostSettingsExtension on FBSSceneSettings
+2026-11-23 19:04:19.619 Df Pizzeria[16998:c4b6] [com.apple.BoardServices:Injection] activating monitor for service com.apple.frontboard.open
+2026-11-23 19:04:19.619 A  Pizzeria[16998:c4e8] (RunningBoardServices) didChangeInheritances
+2026-11-23 19:04:19.619 Df Pizzeria[16998:c4b6] [com.apple.BoardServices:Injection] activating monitor for service com.apple.frontboard.workspace-service
+2026-11-23 19:04:19.619 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneSafeAreaSettingsExtension on FBSSceneSettings
+2026-11-23 19:04:19.620 Df Pizzeria[16998:c4b6] [com.apple.FrontBoard:Common] FBSWorkspace registering source: com.apple.frontboard.systemappservices
+2026-11-23 19:04:19.621 Df Pizzeria[16998:c4b6] [com.apple.FrontBoard:Common] FBSWorkspace connected to endpoint : <BSServiceConnectionEndpoint: 0x60000020dfc0; target: com.apple.frontboard.systemappservices; service: com.apple.frontboard.workspace-service>
+2026-11-23 19:04:19.621 Df Pizzeria[16998:c4b6] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x6000030041b0 com.apple.frontboard.systemappservices> attempting immediate handshake from activate
+2026-11-23 19:04:19.622 Df Pizzeria[16998:c4b6] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x6000030041b0 com.apple.frontboard.systemappservices> sent handshake
+2026-11-23 19:04:19.622 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneLayoutPreferenceClientSettingsExtension on FBSSceneClientSettings
+2026-11-23 19:04:19.622 Df Pizzeria[16998:c4b6] [com.apple.runningboard:general] Added observer for process assertions expiration warning: <_RBSExpirationWarningClient: 0x600000207b20>
+2026-11-23 19:04:19.623 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UIHomeAffordanceHostSceneSettings> on FBSSceneSettings
+2026-11-23 19:04:19.623 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISystemShellSceneHostingEnvironmentSettings on FBSSceneSettings
+2026-11-23 19:04:19.625 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneRenderingEnvironmentSettings on FBSSceneSettings
+2026-11-23 19:04:19.627 Df Pizzeria[16998:c4b6] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x102f07610> for initial
+2026-11-23 19:04:19.628 Df Pizzeria[16998:c4b6] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x102f07610> for CADisplay KVO
+2026-11-23 19:04:19.629 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneRenderingEnvironmentClientSettings> on FBSSceneClientSettings
+2026-11-23 19:04:19.630 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneTransitioningHostSettings> on FBSSceneSettings
+2026-11-23 19:04:19.630 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneFocusSystemSettings> on FBSSceneSettings
+2026-11-23 19:04:19.632 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneOrientationSettingsExtension on FBSSceneSettings
+2026-11-23 19:04:19.636 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneOrientationClientSettingsExtension on FBSSceneClientSettings
+2026-11-23 19:04:19.636 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneWindowingControlClientSettings on FBSSceneClientSettings
+2026-11-23 19:04:19.637 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingContentSizePreferenceClientSettings> on FBSSceneClientSettings
+2026-11-23 19:04:19.637 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneHostingTraitCollectionPropagationSettings on FBSSceneSettings
+2026-11-23 19:04:19.637 Df Pizzeria[16998:c4b6] [com.apple.Accessibility:AXSupportCommon] Read CategoryName: per-app = 1, category name = (null)
+2026-11-23 19:04:19.638 Df Pizzeria[16998:c4b6] [com.apple.Accessibility:AXSupportCommon] Read CategoryName: per-app = 0, category name = (null)
+2026-11-23 19:04:19.642 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingSheetPresentationSettings> on FBSSceneSettings
+2026-11-23 19:04:19.643 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingSheetPresentationClientSettings> on FBSSceneClientSettings
+2026-11-23 19:04:19.643 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingEventDeferringSettings> on FBSSceneSettings
+2026-11-23 19:04:19.647 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIKit__UITypedKeyValueSceneSettings> on FBSSceneSettings
+2026-11-23 19:04:19.647 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIKit__UITypedKeyValueSceneSettings> on FBSSceneClientSettings
+2026-11-23 19:04:19.647 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingViewControllerPreferencePropagationClientSettings> on FBSSceneClientSettings
+2026-11-23 19:04:19.647 Df Pizzeria[16998:c4e2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneZoomTransitionSettings> on FBSSceneSettings
+2026-11-23 19:04:19.648 Df Pizzeria[16998:c4b6] [com.apple.dt.xctest:Default] Registering for test daemon availability notify post.
+2026-11-23 19:04:19.649 Df Pizzeria[16998:c4b6] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-11-23 19:04:19.649 Df Pizzeria[16998:c4b6] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-11-23 19:04:19.649 Df Pizzeria[16998:c4b6] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-11-23 19:04:19.651 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason added: 11; deactivation reasons: 1024 -> 3072; animating application lifecycle event: 0
+2026-11-23 19:04:19.659 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason removed: 10; deactivation reasons: 3072 -> 2048; animating application lifecycle event: 0
+2026-11-23 19:04:19.662 Df Pizzeria[16998:c4b6] [com.apple.UIKit:EventBus] Event Timing Profile for Touch: not found, path="/System/Library/EventTimingProfiles/Sim.Touch.plist"
+2026-11-23 19:04:19.662 Df Pizzeria[16998:c4b6] [com.apple.UIKit:EventBus] Event Timing Profile for Pencil: not found, path="/System/Library/EventTimingProfiles/Sim.Pencil.plist"
+2026-11-23 19:04:19.662 Df Pizzeria[16998:c4b6] [com.apple.UIKit:UpdateScheduler] Selected display: name=LCD (PurpleMain), id=1
+2026-11-23 19:04:19.665 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x103204a00] activating connection: mach=true listener=false peer=false name=com.apple.lsd.mapdb
+2026-11-23 19:04:19.717 Df Pizzeria[16998:c4e9] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneSettingsCore on FBSSceneSettings
+2026-11-23 19:04:19.725 Df Pizzeria[16998:c4e9] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneClientSettingsCore on FBSSceneClientSettings
+2026-11-23 19:04:19.746 Df Pizzeria[16998:c4e9] [com.apple.FrontBoard:SceneExtension] UIMutableApplicationSceneSettings setting counterpart class: UIApplicationSceneSettings
+2026-11-23 19:04:19.747 Df Pizzeria[16998:c4e9] [com.apple.FrontBoard:SceneExtension] UIMutableApplicationSceneClientSettings setting counterpart class: UIApplicationSceneClientSettings
+2026-11-23 19:04:19.753 Df Pizzeria[16998:c4e9] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneTransitionContextCore on FBSSceneTransitionContext
+2026-11-23 19:04:19.844 A  Pizzeria[16998:c4e7] (CoreFoundation) Loading Preferences From User Session CFPrefsD
+2026-11-23 19:04:19.952 Df Pizzeria[16998:c4b6] [com.apple.BoardServices:XPCErrors] [C:2] Alloc com.apple.backboard.hid-services.xpc
+2026-11-23 19:04:19.952 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x103108f60] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-11-23 19:04:19.957 Df Pizzeria[16998:c4e7] [com.apple.BackBoard:EventDelivery] BKSHIDEventDeliveryManager - connection activation
+2026-11-23 19:04:20.056 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x103106eb0] activating connection: mach=true listener=false peer=false name=com.apple.metal.simulator
+2026-11-23 19:04:20.058 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x103209390] activating connection: mach=true listener=false peer=false name=com.apple.metal.simulator
+2026-11-23 19:04:20.059 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x10310ace0] activating connection: mach=true listener=false peer=false name=com.apple.metal.simulator
+2026-11-23 19:04:20.116 E  Pizzeria[16998:c4b6] [com.apple.UIKit:UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-11-23 19:04:20.244 Df Pizzeria[16998:c4b6] (CoreVideo) Pixel format registry initialized. Constant classes enabled.
+2026-11-23 19:04:20.617 Df Pizzeria[16998:c4eb] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 1
+2026-11-23 19:04:20.617 Df Pizzeria[16998:c4eb] [com.apple.UIKit:BackgroundTask] Ending task with identifier 1 and description: <_UIBackgroundTaskInfo: 0x600001701240>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 621 (elapsed = 1), _expireHandler: (null)
+2026-11-23 19:04:20.617 Df Pizzeria[16998:c4eb] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x600002101d10> (used by background task with identifier 1: <_UIBackgroundTaskInfo: 0x600001701240>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 621 (elapsed = 1))
+2026-11-23 19:04:20.617 Df Pizzeria[16998:c4eb] [com.apple.UIKit:BackgroundTask] Will invalidate assertion: <BKSProcessAssertion: 0x600002101d10> for task identifier: 1
+2026-11-23 19:04:20.897 Df Pizzeria[16998:c4eb] [com.apple.xpc:connection] [0x103182c90] activating connection: mach=true listener=false peer=false name=com.apple.fontservicesd
+2026-11-23 19:04:21.892 Df Pizzeria[16998:c4b6] [com.apple.UIKit:BackgroundTask] Will add backgroundTask with taskName: Persistent SceneSession Map Update, expirationHandler: <__NSGlobalBlock__: 0x1e61729e0>
+2026-11-23 19:04:21.892 Df Pizzeria[16998:c4b6] [com.apple.UIKit:BackgroundTask] Creating new assertion because there is no existing background assertion.
+2026-11-23 19:04:21.892 Df Pizzeria[16998:c4b6] [com.apple.UIKit:BackgroundTask] Creating new background assertion
+2026-11-23 19:04:21.892 Df Pizzeria[16998:c4b6] [com.apple.UIKit:BackgroundTask] Created new background assertion <BKSProcessAssertion: 0x600002109810>
+2026-11-23 19:04:21.894 Df Pizzeria[16998:c4b6] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x600002109810>
+2026-11-23 19:04:21.894 Df Pizzeria[16998:c4b6] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x600001726200>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 623 (elapsed = 0).
+2026-11-23 19:04:21.895 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason added: 5; deactivation reasons: 2048 -> 2080; animating application lifecycle event: 1
+2026-11-23 19:04:21.895 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Should send trait collection or coordinate space update, interface style 1 -> 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:21.896 A  Pizzeria[16998:c4e7] (RunningBoardServices) didChangeInheritances
+2026-11-23 19:04:21.897 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:21.897 Df Pizzeria[16998:c4b6] [com.apple.UIKit:HomeAffordanceObservation] Initializing: <_UIHomeAffordanceSceneNotifier: 0x600002935260>; with scene: <UIWindowScene: 0x1031f2a30>
+2026-11-23 19:04:21.897 Df Pizzeria[16998:c4b6] [com.apple.BacklightServices:scenes] 0x600000c87fc0 setDelegate:<0x600000c63660 _UIBacklightEnvironment> hasDelegate:YES for environment:sceneID:com.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:21.898 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:21.898 Df Pizzeria[16998:c4b6] [com.apple.UIKit:EventDeferring] [0x6000029352d0] Initialized with scene: <UIWindowScene: 0x1031f2a30>; behavior: <_UIEventDeferringBehavior_iOS: 0x600000227480>; availableForProcess: 1, systemShellManagesKeyboardFocus: 1
+2026-11-23 19:04:21.902 Df Pizzeria[16998:c4e7] [com.apple.BackBoard:EventDelivery] BKSHIDEventObserver - connection activation
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002604f00; process scope; status: target> was:none
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to LastOneWins
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Scene target of keyboard event deferring environment did change: 1; scene: UIWindowScene: 0x1031f2a30; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.UIKit:EventDeferring] [0x6000029352d0] Scene target of event deferring environments did update: scene: 0x1031f2a30; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x1031f2a30; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Stack[KeyWindow] 0x600000c9c060: Taking no further action for migration from LastOneWins -> SystemShellManaged as there are no scenes
+2026-11-23 19:04:21.903 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to SystemShellManaged
+2026-11-23 19:04:21.904 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Key window needs update: 0; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x1031f2a30; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x0; reason: UIWindowScene: 0x1031f2a30: Window scene became target of keyboard environment
+2026-11-23 19:04:21.904 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:21.904 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:21.906 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:22.021 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Orientation] <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88) Scene updated orientation preferences: none -> ( Ll Lr )
+2026-11-23 19:04:22.023 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Key window API is scene-level: YES
+2026-11-23 19:04:22.023 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] UIWindowScene: 0x1031f2a30: Window became key in scene: UIWindow: 0x11f55a890; contextId: 0x3FA7EC37: reason: UIWindowScene: 0x1031f2a30: Window requested to become key in scene: 0x11f55a890
+2026-11-23 19:04:22.023 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Key window needs update: 1; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x1031f2a30; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x11f55a890; reason: UIWindowScene: 0x1031f2a30: Window requested to become key in scene: 0x11f55a890
+2026-11-23 19:04:22.023 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Window did become application key: UIWindow: 0x11f55a890; contextId: 0x3FA7EC37; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:22.023 Df Pizzeria[16998:c4b6] [com.apple.UIKit:EventDeferring] [0x6000029352d0] Begin local event deferring requested for token: 0x600002627540; environments: 1; reason: UIWindowScene: 0x1031f2a30: Begin event deferring in keyboardFocus for window: 0x11f55a890
+2026-11-23 19:04:22.030 Df Pizzeria[16998:c4e7] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002604f00; token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88; status: ancestor> was:target
+2026-11-23 19:04:22.031 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:22.035 Df Pizzeria[16998:c4b6] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88  persistentID: 42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:22.035 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Ignoring already applied deactivation reason: 5; deactivation reasons: 2080
+2026-11-23 19:04:22.035 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason added: 12; deactivation reasons: 2080 -> 6176; animating application lifecycle event: 1
+2026-11-23 19:04:22.036 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason removed: 11; deactivation reasons: 6176 -> 4128; animating application lifecycle event: 1
+2026-11-23 19:04:22.036 Df Pizzeria[16998:c4b6] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneIntelligenceSupportSettings> on FBSSceneSettings
+2026-11-23 19:04:22.039 Df Pizzeria[16998:c4e7] [com.apple.UIIntelligenceSupport:xpc] establishing connection to agent
+2026-11-23 19:04:22.039 Df Pizzeria[16998:c4e7] [com.apple.xpc:session] [0x600002123610] Session created.
+2026-11-23 19:04:22.039 Df Pizzeria[16998:c4e7] [com.apple.xpc:session] [0x600002123610] Session created from connection [0x11f55c940]
+2026-11-23 19:04:22.040 Df Pizzeria[16998:c4e7] [com.apple.xpc:connection] [0x11f55c940] activating connection: mach=true listener=false peer=false name=com.apple.uiintelligencesupport.agent
+2026-11-23 19:04:22.040 Df Pizzeria[16998:c4e7] [com.apple.xpc:session] [0x600002123610] Session activated
+2026-11-23 19:04:22.042 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:22.067 A  Pizzeria[16998:c4b6] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-11-23 19:04:22.420 Df Pizzeria[16998:c4ef] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 2
+2026-11-23 19:04:22.420 Df Pizzeria[16998:c4ef] [com.apple.UIKit:BackgroundTask] Ending task with identifier 2 and description: <_UIBackgroundTaskInfo: 0x600001726200>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 623 (elapsed = 1), _expireHandler: <__NSGlobalBlock__: 0x1e61729e0>
+2026-11-23 19:04:22.420 Df Pizzeria[16998:c4ef] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x600002109810> (used by background task with identifier 2: <_UIBackgroundTaskInfo: 0x600001726200>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 623 (elapsed = 1))
+2026-11-23 19:04:22.420 Df Pizzeria[16998:c4ef] [com.apple.UIKit:BackgroundTask] Will invalidate assertion: <BKSProcessAssertion: 0x600002109810> for task identifier: 2
+2026-11-23 19:04:22.577 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:22.637 Df Pizzeria[16998:c4b6] [com.apple.extensionkit:NSExtension] Class EXGetExtensionClass(void) returning EXConcreteExtension
+2026-11-23 19:04:22.637 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x11ff047c0] activating connection: mach=true listener=false peer=false name=com.apple.pluginkit.pkd
+2026-11-23 19:04:22.637 A  Pizzeria[16998:c4b6] (PlugInKit) continuous-discovery
+2026-11-23 19:04:22.637 Df Pizzeria[16998:c4b6] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f4e0> created discovery driver
+2026-11-23 19:04:22.638 Df Pizzeria[16998:c4b6] [com.apple.PlugInKit:discovery] [d E3478200-EB48-4147-80B9-705344509067] <PKHost:0x600001708080> Beginning discovery for flags: 0, point: com.apple.AudioUnit
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4e5] [com.apple.PlugInKit:discovery] [d E3478200-EB48-4147-80B9-705344509067] <PKHost:0x600001708080> Completed discovery. Final # of matches: 0
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4ef] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f4e0> delivering update to host (0 plugins)
+2026-11-23 19:04:22.643 A  Pizzeria[16998:c4ef] (ExtensionFoundation) discovering extensions
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4ef] [com.apple.extensionkit:NSExtension] discovered extensions: attributes {
+    NSExtensionPointName = "com.apple.AudioUnit";
+}, extensionSet {(
+)}
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4ef] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f4e0> installing watchers for continuous discovery
+2026-11-23 19:04:22.643 A  Pizzeria[16998:c4b6] (PlugInKit) continuous-discovery
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4b6] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f540> created discovery driver
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4ef] [com.apple.launchservices:appinstallation] registering for distributed notification com.apple.LaunchServices.pluginsregistered in this process
+2026-11-23 19:04:22.643 Df Pizzeria[16998:c4b6] [com.apple.PlugInKit:discovery] [d F68E93C6-69D6-4ACF-91C4-0357E54BDD16] <PKHost:0x600001708080> Beginning discovery for flags: 0, point: com.apple.AudioUnit-UI
+2026-11-23 19:04:22.644 Df Pizzeria[16998:c4ef] [com.apple.xpc:connection] [0x11ff0da30] activating connection: mach=true listener=false peer=false name=com.apple.distributed_notifications@1v3
+2026-11-23 19:04:22.644 Df Pizzeria[16998:c4ef] [com.apple.launchservices:appinstallation] registering for distributed notification com.apple.LaunchServices.pluginsunregistered in this process
+2026-11-23 19:04:22.646 Df Pizzeria[16998:c4e5] [com.apple.PlugInKit:discovery] [d F68E93C6-69D6-4ACF-91C4-0357E54BDD16] <PKHost:0x600001708080> Completed discovery. Final # of matches: 0
+2026-11-23 19:04:22.652 Df Pizzeria[16998:c4ec] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f540> delivering update to host (0 plugins)
+2026-11-23 19:04:22.652 A  Pizzeria[16998:c4ec] (ExtensionFoundation) discovering extensions
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4ef] [com.apple.launchservices:progress] Establishing xpc connection to lsd
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4ef] [com.apple.xpc:connection] [0x103206b10] activating connection: mach=true listener=false peer=false name=com.apple.lsd.xpc
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4ec] [com.apple.extensionkit:NSExtension] discovered extensions: attributes {
+    NSExtensionPointName = "com.apple.AudioUnit-UI";
+}, extensionSet {(
+)}
+2026-11-23 19:04:22.653 A  Pizzeria[16998:c4b6] (PlugInKit) continuous-discovery
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4ec] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f540> installing watchers for continuous discovery
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4b6] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f480> created discovery driver
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4b6] [com.apple.PlugInKit:discovery] [d 34636104-0B26-4A9F-B3E1-FB59001B9846] <PKHost:0x600001708080> Beginning discovery for flags: 0, point: com.apple.AudioUnit-Speech
+2026-11-23 19:04:22.653 Df Pizzeria[16998:c4e5] [com.apple.launchservices:progress] Received LSWorkspaceObserverPing, xpc connection established
+2026-11-23 19:04:22.657 Df Pizzeria[16998:c4ec] [com.apple.PlugInKit:discovery] [d 34636104-0B26-4A9F-B3E1-FB59001B9846] <PKHost:0x600001708080> Completed discovery. Final # of matches: 4
+2026-11-23 19:04:22.657 Df Pizzeria[16998:c4e5] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f480> delivering update to host (4 plugins)
+2026-11-23 19:04:22.657 A  Pizzeria[16998:c4e5] (ExtensionFoundation) discovering extensions
+2026-11-23 19:04:22.662 Df Pizzeria[16998:c4e5] [com.apple.extensionkit:NSExtension] discovered extensions: attributes {
+    NSExtensionPointName = "com.apple.AudioUnit-Speech";
+}, extensionSet {(
+    <EXConcreteExtension: 0x6000039e7190> {id = com.apple.texttospeech.SiriAUSP},
+    <EXConcreteExtension: 0x6000039db810> {id = com.apple.ax.KonaTTSSupport.KonaSynthesizer},
+    <EXConcreteExtension: 0x6000039e7330> {id = com.apple.ax.MauiTTSSupport.MauiAUSP},
+    <EXConcreteExtension: 0x6000039e7400> {id = com.apple.speech.MacinTalkFramework.MacinTalkAUSP}
+)}
+2026-11-23 19:04:22.662 Df Pizzeria[16998:c4e5] [com.apple.PlugInKit:discovery] <PKDiscoveryDriver:0x60000264f480> installing watchers for continuous discovery
+2026-11-23 19:04:22.670 Df Pizzeria[16998:c4b6] [com.apple.audio.caulk:alloc] Registered notify signal com.apple.caulk.alloc.rtdump (0)
+2026-11-23 19:04:22.991 Df Pizzeria[16998:c4b6] (CoreAudio)   HALPlugInManagement.cpp:443    HALPlugInManagement::RegisterPlugIns: loading in-process plug-ins
+2026-11-23 19:04:22.993 E  Pizzeria[16998:c4b6] [com.apple.CFBundle:plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x6000002a50e0> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+2026-11-23 19:04:23.100 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:as_client] AVAudioSessionImpl_Simulator.mm:111   Set volume on device 86 to 0.60
+2026-11-23 19:04:23.100 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:as_client] AVAudioSessionImpl_Simulator.mm:111   Set volume on device 86 to 0.60
+2026-11-23 19:04:23.106 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:ddagg]        AggregateDevice.mm:887   Creating DefaultDeviceAggregate
+2026-11-23 19:04:23.150 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:ddagg]        AggregateDevice.mm:688   Built valid aggregate 110
+2026-11-23 19:04:23.150 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:ddagg]        AggregateDevice.mm:1008  PrimarySessionActiveWithInputEnabled 0 -> 0
+2026-11-23 19:04:23.169 Df Pizzeria[16998:c4b6] [com.apple.avfaudio:avae]      AVAudioIONodeImpl.mm:235   Engine@0x60000370ab80: associating with audio session (0x0), error -10879
+2026-11-23 19:04:23.172 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1130  AURemoteIO@0x103be1c40: set kAudioOutputUnitProperty_OutputChannelLayout.  Layout = tag=0x0, 0 channel descriptions [], err = 0
+2026-11-23 19:04:23.185 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]           AQMixEngine.cpp:733   AQMEDevice (0x1032345c8) has neither a defaultOutStreamClient nor a defaultInStreamClient
+2026-11-23 19:04:23.185 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aqme]              AQIONode.cpp:693   client <RemoteIOClient@0x10445ea00(@0x10445ec18); output; [16998]> is NOT Now Playing eligible
+2026-11-23 19:04:23.187 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1872  rio@0x10445ec18 spatialization disabled.  layout = tag=0x0, 0 channel descriptions [], format =  2 ch,      0 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.188 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:EnhanceDialogueProcessor] EnhanceDialogueProcessor.cpp:226   EnhanceDialogueProcessor() - Product does not support Enhance Dialogue
+2026-11-23 19:04:23.189 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:EnhanceDialogueProcessor] EnhanceDialogueProcessor.cpp:226   EnhanceDialogueProcessor() - Product does not support Enhance Dialogue
+2026-11-23 19:04:23.190 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:AudioConverter]        ACv2Workarounds.mm:51    com.svetlo.pizzeria: fix84702776_86723525_86479548_89800354_SinglePacketDesc: false
+2026-11-23 19:04:23.194 Df Pizzeria[16998:c4ef] [com.apple.audio.caulk:alloc] Registered notify signal com.apple.caulk.alloc.audiodump (0)
+2026-11-23 19:04:23.194 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1067  Created a new in process converter -> 0x600000caa610, from  2 ch,  48000 Hz, Float32, deinterleaved to  2 ch,  48000 Hz, Float32, interleaved
+2026-11-23 19:04:23.219 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aqme]          RemoteIOServer.h:101   rio@0x10445ea00 Got output layout from io node or spatialized client: tag=0x0, 2 channel descriptions [Л, П]
+2026-11-23 19:04:23.220 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1581  SetLoudnessFromLM(): ->
+2026-11-23 19:04:23.221 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1620  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManager enabled? yes
+2026-11-23 19:04:23.221 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1623  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManagerV2 enabled? yes
+2026-11-23 19:04:23.221 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1626  SetLoudnessFromLM(): is CoreAudioServices/lm-disable-hardware-check on? no
+2026-11-23 19:04:23.224 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1629  SetLoudnessFromLM(): is hardware supported? no
+2026-11-23 19:04:23.224 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1641  SetLoudnessFromLM(): hardware not supported, Loudness Manager disabled
+2026-11-23 19:04:23.228 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1067  Created a new in process converter -> 0x600000cab390, from  2 ch,      0 Hz, Float32, deinterleaved to  2 ch,  48000 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.228 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1317  AudioConverter -> 0x600000cab390: The in-process GetProperty call returned 1886547824 for property 1936876385 with size 4.
+2026-11-23 19:04:23.228 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1317  AudioConverter -> 0x600000cab390: The in-process GetProperty call returned 1886547824 for property 1936876401 with size 4.
+2026-11-23 19:04:23.229 Df Pizzeria[16998:c559] [com.apple.coreaudio:AudioConverter] AudioConverter -> 0x600000cab390: The in-process SetProperty call returned 1886547824 for property 1886547309 with size 4.
+2026-11-23 19:04:23.234 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:SpatialMgr] SpatializationManager.cpp:1459  Could not load preset file, invalid model/product name!
+2026-11-23 19:04:23.234 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1317  AudioConverter -> 0x600000cab390: The in-process GetProperty call returned 1886547824 for property 1886546285 with size 8.
+2026-11-23 19:04:23.236 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aqme]        MEMixerChannel.cpp:3254  2-channel audiovisual content is NOT eligible for spatialization
+2026-11-23 19:04:23.236 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1741  Stopping AURemoteIO(0x103be1c40)
+2026-11-23 19:04:23.236 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aqme]  MEDeviceStreamClient.cpp:245   AQME Default-InputOutput: client starting: <CA_UISoundClientBase@0x103207850>; running count now 1
+2026-11-23 19:04:23.236 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aqme]            AQMEIO_HAL.cpp:2849  FetchAndLogFrameSize starting IO deviceID=110, frame size is 512
+2026-11-23 19:04:23.423 Df Pizzeria[16998:c4e5] [com.apple.coreaudio:aqme]            AQMEIO_HAL.cpp:2818  aqmeio@0x104465a18, device 110 (iOSSimulatorAudioDevice-16998-0), AudioDeviceStart (err 0)
+2026-11-23 19:04:23.957 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1130  AURemoteIO@0x103be1c40: set kAudioOutputUnitProperty_OutputChannelLayout.  Layout = tag=0x650002, err = 0
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]              AQIONode.cpp:693   client <RemoteIOClient@0x10445ea00(@0x10445ec18); output; [16998]> is NOT Now Playing eligible
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1872  rio@0x10445ec18 spatialization disabled.  layout = tag=0x650002, format =  2 ch,  44100 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]          RemoteIOServer.h:101   rio@0x10445ea00 Got output layout from io node or spatialized client: tag=0x0, 2 channel descriptions [Л, П]
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1581  SetLoudnessFromLM(): ->
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1620  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManager enabled? yes
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1623  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManagerV2 enabled? yes
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1626  SetLoudnessFromLM(): is CoreAudioServices/lm-disable-hardware-check on? no
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1629  SetLoudnessFromLM(): is hardware supported? no
+2026-11-23 19:04:23.958 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1641  SetLoudnessFromLM(): hardware not supported, Loudness Manager disabled
+2026-11-23 19:04:23.959 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1067  Created a new in process converter -> 0x600000cad4a0, from  2 ch,  44100 Hz, Float32, deinterleaved to  2 ch,  48000 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.959 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:AudioConverter]        AudioConverter.cpp:1317  AudioConverter -> 0x600000cad4a0: The in-process GetProperty call returned 1886547824 for property 1936876385 with size 4.
+2026-11-23 19:04:23.959 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1741  Stopping AURemoteIO(0x103be1c40)
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1130  AURemoteIO@0x103be1c40: set kAudioOutputUnitProperty_OutputChannelLayout.  Layout = tag=0x650002, err = 0
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]              AQIONode.cpp:693   client <RemoteIOClient@0x10445ea00(@0x10445ec18); output; [16998]> is NOT Now Playing eligible
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1872  rio@0x10445ec18 spatialization disabled.  layout = tag=0x650002, format =  2 ch,  48000 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]          RemoteIOServer.h:101   rio@0x10445ea00 Got output layout from io node or spatialized client: tag=0x0, 2 channel descriptions [Л, П]
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1581  SetLoudnessFromLM(): ->
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1620  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManager enabled? yes
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1623  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManagerV2 enabled? yes
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1626  SetLoudnessFromLM(): is CoreAudioServices/lm-disable-hardware-check on? no
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1629  SetLoudnessFromLM(): is hardware supported? no
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1641  SetLoudnessFromLM(): hardware not supported, Loudness Manager disabled
+2026-11-23 19:04:23.960 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1741  Stopping AURemoteIO(0x103be1c40)
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1130  AURemoteIO@0x103be1c40: set kAudioOutputUnitProperty_OutputChannelLayout.  Layout = tag=0x650002, err = 0
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]              AQIONode.cpp:693   client <RemoteIOClient@0x10445ea00(@0x10445ec18); output; [16998]> is NOT Now Playing eligible
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1872  rio@0x10445ec18 spatialization disabled.  layout = tag=0x650002, format =  2 ch,  48000 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]          RemoteIOServer.h:101   rio@0x10445ea00 Got output layout from io node or spatialized client: tag=0x0, 2 channel descriptions [Л, П]
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1581  SetLoudnessFromLM(): ->
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1620  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManager enabled? yes
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1623  SetLoudnessFromLM(): is CoreAudioServices/LoudnessManagerV2 enabled? yes
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1626  SetLoudnessFromLM(): is CoreAudioServices/lm-disable-hardware-check on? no
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1629  SetLoudnessFromLM(): is hardware supported? no
+2026-11-23 19:04:23.961 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aurios]        RemoteIOServer.cpp:1641  SetLoudnessFromLM(): hardware not supported, Loudness Manager disabled
+2026-11-23 19:04:23.962 Df Pizzeria[16998:c4b6] [com.apple.avfaudio:avae]          AVAudioEngine.mm:1182  Engine@0x600000019620: start, was running 0
+2026-11-23 19:04:23.962 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1666  Starting AURemoteIO(0x103be1c40)
+output client:  2 ch,  48000 Hz, Float32, deinterleaved, output HW:  2 ch,  48000 Hz, Float32, deinterleaved
+input client:   2 ch,      0 Hz, Float32, deinterleaved, input HW:   2 ch,      0 Hz, Float32, deinterleaved
+2026-11-23 19:04:23.962 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]            AQMEIO_HAL.cpp:1079  fetched workgroup 0x600001775300
+2026-11-23 19:04:23.963 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:auext]        AUOOPWorkgroups.mm:30    AUOOPWorkgroupManager: AddRemoteIOWorkgroup called with token 69623811.
+2026-11-23 19:04:23.963 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:auext]        AUOOPWorkgroups.mm:66    AUOOPWorkgroupManager: mutating workgroups.
+2026-11-23 19:04:23.963 Df Pizzeria[16998:c4b6] [com.apple.coreaudio:aurioc]            AURemoteIO.cpp:1727  workgroup port 0x10403
+2026-11-23 19:04:23.964 Df Pizzeria[16998:c577] [com.apple.coreaudio:auext]        AUOOPWorkgroups.mm:30    AUOOPWorkgroupManager: AddRemoteIOWorkgroup called with token 69623810.
+2026-11-23 19:04:23.964 Df Pizzeria[16998:c577] [com.apple.coreaudio:auext]        AUOOPWorkgroups.mm:66    AUOOPWorkgroupManager: mutating workgroups.
+2026-11-23 19:04:23.964 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]              AQIONode.cpp:693   client <RemoteIOClient@0x10445ea00(@0x10445ec18); output; [16998]> is NOT Now Playing eligible
+2026-11-23 19:04:23.964 Df Pizzeria[16998:c4ef] [com.apple.coreaudio:aqme]  MEDeviceStreamClient.cpp:245   AQME Default-InputOutput: client starting: <RemoteIOClient@0x10445ea00(@0x10445ec18); output; [16998]>; running count now 2
+2026-11-23 19:04:24.130 Df Pizzeria[16998:c4b6] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:1 [511B0F14-9770-4B7A-BA1C-2E96CDD8FAD8] (reporting strategy default)>
+2026-11-23 19:04:24.131 Df Pizzeria[16998:c4b6] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:2 [C0921310-33F9-4AFE-9224-354CD78C83D5] (reporting strategy default)>
+2026-11-23 19:04:24.131 Df Pizzeria[16998:c4b6] [com.apple.network:activity] Set activity <nw_activity 50:1 [511B0F14-9770-4B7A-BA1C-2E96CDD8FAD8] (reporting strategy default)> as the global parent
+2026-11-23 19:04:24.131 Df Pizzeria[16998:c4b6] [com.apple.Accessibility:AXCommon] Read Per-App on Init: Smart invert = (null)
+2026-11-23 19:04:24.136 A  Pizzeria[16998:c4e5] (RunningBoardServices) didChangeInheritances
+2026-11-23 19:04:24.142 Df Pizzeria[16998:c4b6] [com.apple.UIKit:EventDeferring] [0x6000029352d0] Scene target of event deferring environments did update: scene: 0x1031f2a30; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-11-23 19:04:24.142 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x1031f2a30; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Acom.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:24.153 A  Pizzeria[16998:c4e5] (RunningBoardServices) didChangeInheritances
+2026-11-23 19:04:24.673 A  Pizzeria[16998:c4ea] (RunningBoardServices) didChangeInheritances
+2026-11-23 19:04:24.933 Df Pizzeria[16998:c4b6] [com.apple.UIKit:UpdateScheduler] Target list changed: <CADisplay:LCD PurpleMain>
+2026-11-23 19:04:25.323 Df Pizzeria[16998:c4b6] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88  persistentID: 42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:25.324 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Should not send trait collection or coordinate space update, interface style 2 -> 2, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:25.326 Df Pizzeria[16998:c4b6] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88  persistentID: 42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:25.326 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:25.329 Df Pizzeria[16998:c4b6] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1031f2a30> (42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88)
+2026-11-23 19:04:25.332 Df Pizzeria[16998:c4b6] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88  persistentID: 42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:25.333 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason removed: 12; deactivation reasons: 4128 -> 32; animating application lifecycle event: 1
+2026-11-23 19:04:25.333 Df Pizzeria[16998:c4b6] [com.apple.KeyboardArbiter:Client] Send setDeactivating: N (-DeactivationReason:SuspendedEventsOnly)
+2026-11-23 19:04:25.334 Df Pizzeria[16998:c4b6] [com.apple.UIKit:Application] Deactivation reason removed: 5; deactivation reasons: 32 -> 0; animating application lifecycle event: 0
+2026-11-23 19:04:25.336 Df Pizzeria[16998:c4b6] [com.apple.KeyboardArbiter:Client] startConnection
+2026-11-23 19:04:25.339 Df Pizzeria[16998:c4b6] [com.apple.xpc:connection] [0x12fe09ab0] activating connection: mach=true listener=false peer=false name=com.apple.UIKit.KeyboardManagement.hosted
+2026-11-23 19:04:25.372 E  Pizzeria[16998:c4ef] (libCoreFSCache.dylib) fopen failed for data file: errno = 2 (No such file or directory)
+2026-11-23 19:04:25.373 E  Pizzeria[16998:c4ef] (libCoreFSCache.dylib) Errors found! Invalidating cache...
+2026-11-23 19:04:25.375 Df Pizzeria[16998:c4ef] [com.apple.xpc:connection] [0x102ffefa0] activating connection: mach=false listener=false peer=false name=com.apple.MTLCompilerService
+2026-11-23 19:04:25.509 Df Pizzeria[16998:c4b6] [com.apple.KeyboardArbiter:Client] handleKeyboardChange: set currentKeyboard:N (wasKeyboard:N)
+2026-11-23 19:04:25.521 Df Pizzeria[16998:c4b6] [com.apple.UIKit:KeyboardArbiterClientLog] isWritingToolsHandlingKeyboardTracking:Y (WT ready:Y, Arbiter ready:Y)
+2026-11-23 19:04:25.868 Df Pizzeria[16998:c4ef] [com.apple.xpc:connection] [0x103218760] activating connection: mach=false listener=false peer=false name=com.apple.MTLCompilerService
+2026-11-23 19:04:25.868 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.371 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.401 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.447 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.501 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.528 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.561 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.592 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.617 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.653 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.656 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.671 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.680 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.686 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.692 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.700 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.708 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.715 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.726 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.734 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.741 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.747 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.760 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.770 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.778 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.789 E  Pizzeria[16998:c4ef] (libCoreFSCache.dylib) fopen failed for data file: errno = 2 (No such file or directory)
+2026-11-23 19:04:26.789 E  Pizzeria[16998:c4ef] (libCoreFSCache.dylib) Errors found! Invalidating cache...
+2026-11-23 19:04:26.789 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.798 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.802 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:26.813 Df Pizzeria[16998:c4ef] [com.apple.xpc:connection] [0x103157840] activating connection: mach=true listener=false peer=false name=com.apple.IOSurface.Remote
+2026-11-23 19:04:26.823 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:27.618 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:27.670 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:27.743 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.444 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.449 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.561 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.699 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.705 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.741 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.771 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.800 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.909 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.912 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:28.945 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.142 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.151 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.169 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.216 A  Pizzeria[16998:c4ed] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.231 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.234 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.245 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.282 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.311 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.431 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.440 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.657 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.678 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.839 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.845 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:29.859 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.011 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.015 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.034 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.179 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.199 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.201 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.209 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.414 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.425 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.485 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.658 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.713 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.875 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.881 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:30.897 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.068 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.075 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.097 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.302 A  Pizzeria[16998:c4e2] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.363 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.541 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.556 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.716 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.734 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:31.915 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.011 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.243 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.320 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.498 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.556 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.717 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.775 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.940 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:32.963 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.122 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.179 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.374 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.401 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.580 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.617 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.796 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:33.827 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.091 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.125 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.326 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.352 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.604 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.693 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.895 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.905 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:34.921 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.138 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.166 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.433 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.443 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.462 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.677 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.726 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.924 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:35.959 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.195 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.203 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.222 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.430 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.599 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.768 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.789 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.794 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.953 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:36.970 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.137 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.166 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.335 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.358 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.544 E  Pizzeria[16998:c532] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1623  HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
+2026-11-23 19:04:37.546 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.599 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.604 A  Pizzeria[16998:c4e4] (Metal) Metal Compiling Shader
+2026-11-23 19:04:37.983 Df Pizzeria[16998:c4b6] [com.apple.network:activity] <nw_activity 50:1 [511B0F14-9770-4B7A-BA1C-2E96CDD8FAD8] (global parent) (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 23760ms
+2026-11-23 19:04:37.983 Df Pizzeria[16998:c4b6] [com.apple.network:activity] <nw_activity 50:2 [C0921310-33F9-4AFE-9224-354CD78C83D5] (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 23761ms
+2026-11-23 19:04:37.983 Df Pizzeria[16998:c4b6] [com.apple.network:activity] Unsetting the global parent activity <nw_activity 50:1 [511B0F14-9770-4B7A-BA1C-2E96CDD8FAD8] (global parent) (reporting strategy default) complete (reason success)>
+2026-11-23 19:04:37.983 Df Pizzeria[16998:c4b6] [com.apple.network:activity] Unset the global parent activity
+2026-11-23 19:04:42.305 E  Pizzeria[16998:c532] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1623  HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
+2026-11-23 19:04:42.306 E  Pizzeria[16998:c532] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1623  HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
+2026-11-23 19:04:53.893 Df Pizzeria[16998:c4b6] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:com.svetlo.pizzeria-42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88  persistentID: 42F7F4AE-2BFF-41A9-9EB9-5AB4D8F90F88
+2026-11-23 19:04:58.910 Df Pizzeria[16998:c4b6] [com.apple.KeyboardArbiter:Client] RX sceneBecameFocused:(null)
+2026-11-23 19:06:11.511 A  Pizzeria[16998:c4ea] (Metal) Metal Compiling Shader
+2026-11-23 19:06:11.906 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:11.993 A  Pizzeria[16998:c4ea] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.148 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.155 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.175 A  Pizzeria[16998:c4ea] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.455 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.499 A  Pizzeria[16998:c4ea] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.772 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:12.810 A  Pizzeria[16998:c4ea] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.069 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.204 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.444 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.459 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.533 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.540 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.542 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.544 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.556 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.809 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:13.825 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.015 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.032 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.038 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.290 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.319 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.627 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.661 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:14.902 A  Pizzeria[16998:c4ef] (Metal) Metal Compiling Shader
+2026-11-23 19:06:15.379 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:15.799 A  Pizzeria[16998:c77a] (Metal) Metal Compiling Shader
+2026-11-23 19:06:16.076 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:16.298 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:18.668 A  Pizzeria[16998:c4ea] (Metal) Metal Compiling Shader
+2026-11-23 19:06:19.023 A  Pizzeria[16998:c77b] (Metal) Metal Compiling Shader
+2026-11-23 19:06:20.980 Df Pizzeria[16998:c4eb] (libAudioDSP.dylib) cannot migrate AudioUnit assets for current process
+2026-11-23 19:06:25.312 A  Pizzeria[16998:c4ec] (Metal) Metal Compiling Shader
+2026-11-23 19:06:25.612 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:06:25.680 A  Pizzeria[16998:c4e9] (Metal) Metal Compiling Shader
+2026-11-23 19:06:25.927 A  Pizzeria[16998:c4ec] (Metal) Metal Compiling Shader
+2026-11-23 19:06:32.998 A  Pizzeria[16998:c4ec] (Metal) Metal Compiling Shader
+2026-11-23 19:06:33.324 A  Pizzeria[16998:c4e7] (Metal) Metal Compiling Shader
+2026-11-23 19:06:39.777 Df Pizzeria[16998:c4b6] [PrototypeTools:domain] Not observing PTDefaults on customer install.

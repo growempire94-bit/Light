@@ -1,0 +1,9 @@
+shot 1 ready=1
+shot 2 ready=1
+shot 3 ready=1
+shot 4 ready=1
+shot 5 ready=1
+shot 6 ready=1
+shot 7 ready=1
+shot 8 ready=1
+shot 9 ready=1
