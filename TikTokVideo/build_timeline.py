@@ -119,7 +119,7 @@ cues = {
     "biz": word_t("L1", "бізнес"),
     "selfie": word_t("L1", "селфі"),
     "dubai": word_t("L1", "Дубаї"),
-    "warsaw": word_t("L2", "Варшаву"),
+    "warsaw": word_t("L2", "Варшава"),
     "nine": word_t("L2", "дев"),
     "twelve": word_t("L2", "дванадцятій"),
     "shanghai": word_t("L2", "Шанхай"),
